@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<!-- 开机引导 -->
+
+<head>
+    <link rel="stylesheet" href="loading.css">
+    <title>Windows 9</title>
+    <style>
+        @import url(bootstrap-icon/bootstrap-icons.min.css);
+
+        body {
+            background: #000;
+        }
+
+        .center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .main>p {
+            font-size: 15pt;
+            color: white;
+        }
+
+        i.bi-windows {
+            color: #67acec;
+            font-size: 100pt;
+        }
+
+        .loader .circle {
+            position: absolute;
+            width: 24px;
+            height: 24px;
+            transform: rotate(50deg);
+        }
+
+        .loader .circle:after {
+            width: 3px;
+            height: 3px;
+        }
+    </style>
+    <meta http-equiv="Refresh" content="10;url=desktop.html" />
+</head>
+
+<body>
+    <div class="main center">
+        <i class="bi bi-windows"></i>
+        <div class="loader" style="margin-bottom: 75px;">
+            <div class="circle"></div>
+            <div class="circle"></div>
+            <div class="circle"></div>
+            <div class="circle"></div>
+            <div class="circle"></div>
+        </div>
+    </div>
+</body>
+
+</html>

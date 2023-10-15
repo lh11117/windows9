@@ -1,0 +1,147 @@
+@import url(bootstrap-icon/bootstrap-icons.min.css);
+
+
+*{
+    moz-user-select: -moz-none;
+    -moz-user-select: none;
+    -o-user-select:none;
+    -khtml-user-select:none;
+    -webkit-user-select:none;
+    -ms-user-select:none;
+    user-select:none;
+}
+
+body {
+    background-image: url('win9bg.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+.taskbar {
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    width: 100%;
+    background-color: #76d81970;
+    height: 34px;
+    padding-top: 10px;
+}
+
+.taskbar>icon>i.bi {
+    font-size: 13pt;
+}
+
+.taskbar>icon {
+    color: rgb(0, 0, 0);
+    display: default;
+    height: 100%;
+    padding: 10px;
+    margin-bottom: 0px;
+    transition: background-color 0.5s;
+    top: 50%;
+    transform: translate(0%, -50%);
+}
+
+.taskbar>icon:hover {
+    color: rgb(0, 34, 255);
+    background-color: #7c7c7c;
+}
+
+
+@keyframes start-menu-show{
+    from{
+        opacity: 0;
+    }
+    to{
+        opacity: 1;
+    }
+}
+
+.start-menu {
+    position: absolute;
+    bottom: 44px;
+    left: 0px;
+    background-color: #567160;
+    height: 70%;
+    width: 400px;
+    display: none;
+    z-index: 101;
+}
+
+.start-menu.show {
+    display: block;
+    animation: start-menu-show 0.1s linear;
+	animation-fill-mode: forwards;
+}
+
+.start-menu>.start-menu-item>div {
+    margin: 0px;
+    padding: 10px;
+    transition: background-color 0.5s;
+}
+
+.start-menu>.start-menu-item>div:hover {
+    margin: 0px;
+    padding: 10px;
+    background-color: #7c7c7c;
+    color: #fff;
+}
+
+.start-menu>.start-menu-item>div>i.bi {
+    padding: 10px;
+}
+
+.start-menu-user {
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+    font-size: 20pt;
+}
+
+.start-menu-user>i.bi {
+    margin-right: 10px;
+    background-color: #fff;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    position: relative;
+}
+
+.start-menu-user>i.bi::before {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+
+.start-menu-power {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    height: auto;
+    width: 100px;
+    background-color: rgb(114, 141, 126);
+    transition: background-color 0.5s;
+    padding: 5px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.start-menu-power:hover {
+    background-color: rgb(153, 190, 169);
+}
+
+.start-menu-power>i.bi {
+    margin-right: 5px;
+}
+
+.taskbar-time-show{
+    position: absolute;
+    top: 50%;
+    right:0px;
+    transform: translate(0%,-50%);
+    text-align: right;
+    margin-right: 5px;
+}
