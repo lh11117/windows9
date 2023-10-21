@@ -1,0 +1,11 @@
+.loader .circle {
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    transform: rotate(50deg);
+}
+
+.loader .circle:after {
+    width: 3px;
+    height: 3px;
+}

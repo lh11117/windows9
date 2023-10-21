@@ -1,18 +1,18 @@
 @import url(bootstrap-icon/bootstrap-icons.min.css);
 
 
-*{
+* {
     moz-user-select: -moz-none;
     -moz-user-select: none;
-    -o-user-select:none;
-    -khtml-user-select:none;
-    -webkit-user-select:none;
-    -ms-user-select:none;
-    user-select:none;
+    -o-user-select: none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
 body {
-    background-image: url('win9bg.jpg');
+    background-image: url('https://lh11117.github.io/windows9/win9bg.jpg');
     background-size: cover;
     background-repeat: no-repeat;
     background-attachment: fixed;
@@ -49,11 +49,12 @@ body {
 }
 
 
-@keyframes start-menu-show{
-    from{
+@keyframes start-menu-show {
+    from {
         opacity: 0;
     }
-    to{
+
+    to {
         opacity: 1;
     }
 }
@@ -64,7 +65,7 @@ body {
     left: 0px;
     background-color: #567160;
     height: 70%;
-    width: 400px;
+    width: 420px;
     display: none;
     z-index: 101;
 }
@@ -72,40 +73,73 @@ body {
 .start-menu.show {
     display: block;
     animation: start-menu-show 0.1s linear;
-	animation-fill-mode: forwards;
+    animation-fill-mode: forwards;
 }
 
-.start-menu>.start-menu-item>div {
+.start-menu>.start-menu-item {
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: 50%;
+}
+
+.start-menu>.start-menu-item>div>div {
     margin: 0px;
     padding: 10px;
     transition: background-color 0.5s;
+    height: 50%;
 }
 
-.start-menu>.start-menu-item>div:hover {
+.start-menu>P.start-menu-tips-text {
+    margin: 0px;
+    margin-top: 15px;
+    margin-left: 25px;
+    font-size: 18pt;
+    margin-bottom: 10px;
+}
+
+.start-menu>.start-menu-item>div>div:hover {
     margin: 0px;
     padding: 10px;
     background-color: #7c7c7c;
     color: #fff;
 }
 
-.start-menu>.start-menu-item>div>i.bi {
+.start-menu>.start-menu-item>div>div>i.bi {
     padding: 10px;
 }
 
 .start-menu-user {
     display: flex;
-    justify-content: center;
-    padding: 10px;
     font-size: 20pt;
+    position: relative;
+    width: 100%;
+    transition: background-color 0.5s;
+    justify-content: center;
+    cursor: pointer;
 }
 
+.start-menu-user:hover {
+    background-color: rgb(153, 190, 169);
+}
+
+.start-menu-user>a {
+    position: absolute;
+    left: 150px;
+    TOP: 50%;
+    transform: translate(100%, -50%);
+}
+
+
 .start-menu-user>i.bi {
+    margin: 10px;
     margin-right: 10px;
     background-color: #fff;
     border-radius: 50%;
-    width: 40px;
-    height: 40px;
+    width: 100px;
+    height: 100px;
     position: relative;
+    font-size: 35pt;
+    transform: translate(-50%, 0%);
 }
 
 .start-menu-user>i.bi::before {
@@ -120,6 +154,10 @@ body {
     position: absolute;
     bottom: 10px;
     right: 10px;
+    display: flex;
+}
+
+.start-menu-power-btn {
     height: auto;
     width: 100px;
     background-color: rgb(114, 141, 126);
@@ -129,19 +167,52 @@ body {
     cursor: pointer;
 }
 
-.start-menu-power:hover {
+.start-menu-power-extensions-btn {
+    height: auto;
+    width: 20px;
+    background-color: rgb(114, 141, 126);
+    transition: background-color 0.5s;
+    padding: 5px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.start-menu-power-extensions-btn:hover {
     background-color: rgb(153, 190, 169);
 }
 
-.start-menu-power>i.bi {
+.start-menu-power-btn:hover {
+    background-color: rgb(153, 190, 169);
+}
+
+.start-menu-power-btn>i.bi {
     margin-right: 5px;
 }
 
-.taskbar-time-show{
+.start-menu-power-extensions{
+    display: none;
+    position: absolute;
+    bottom: 10px;
+    right: 9px;
+    transform: translate(100%,0%);
+}
+
+.start-menu-power-extensions.show{
+    display: block;
+    animation: start-menu-show 0.1s linear;
+}
+
+.start-menu-power-extensions>div{
+    border-color: #7c7c7c;
+}
+
+
+
+.taskbar-time-show {
     position: absolute;
     top: 50%;
-    right:0px;
-    transform: translate(0%,-50%);
+    right: 0px;
+    transform: translate(0%, -50%);
     text-align: right;
     margin-right: 5px;
 }

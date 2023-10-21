@@ -1,60 +1,27 @@
 <!DOCTYPE html>
 <html>
-<!-- 开机引导 -->
+<!-- 这个页面用于加载资源 -->
 
 <head>
-    <link rel="stylesheet" href="loading.css">
-    <title>Windows 9</title>
-    <style>
-        @import url(bootstrap-icon/bootstrap-icons.min.css);
-
-        body {
-            background: #000;
-        }
-
-        .center {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }
-
-        .main>p {
-            font-size: 15pt;
-            color: white;
-        }
-
-        i.bi-windows {
-            color: #67acec;
-            font-size: 100pt;
-        }
-
-        .loader .circle {
-            position: absolute;
-            width: 24px;
-            height: 24px;
-            transform: rotate(50deg);
-        }
-
-        .loader .circle:after {
-            width: 3px;
-            height: 3px;
-        }
-    </style>
-    <meta http-equiv="Refresh" content="10;url=desktop.html" />
+    <title>Wait...</title>
 </head>
 
 <body>
-    <div class="main center">
-        <i class="bi bi-windows"></i>
-        <div class="loader" style="margin-bottom: 75px;">
-            <div class="circle"></div>
-            <div class="circle"></div>
-            <div class="circle"></div>
-            <div class="circle"></div>
-            <div class="circle"></div>
-        </div>
+    <p id="loading">海内存知己，天涯若比邻。<br>请稍后……<br><br><br><br>正在加载一些资源，完成将自动跳转。</p>
+    <div style="display: none;">
+        <img src="win9bg.jpg"></img>
+        <link rel="stylesheet" href="bootstrap-icon/bootstrap-icons.min.css">
+        <script src="jquery.min.js"></script>
+        <script src="kernel.js"></script>
+        <link rel="stylesheet" href="winload.css">
+        <link rel="stylesheet" href="loading.css">
     </div>
+    <script>
+        window.onload = function () {
+            document.getElementById('loading').innerHTML += "<br><br>加载完成！<br>如果您的浏览器没有自动跳转，请点击：<a href='winload.html'>这里<a>"
+            window.location.href = 'winload.html';
+        };
+    </script>
 </body>
 
 </html>
