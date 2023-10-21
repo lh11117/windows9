@@ -11,21 +11,27 @@
         <icon class="winlogo" onclick="$('#start-menu').toggleClass('show')" title="开始">
             <i class="bi bi-windows"></i>
         </icon>
-        <icon class="tb-icon edge" title="Microsoft Edge">
-            <i class="bi bi-browser-edge"></i>
-        </icon>
+        <div class="taskbar-icons">
+            <div>
+            </div>
+        </div>
         <div class="taskbar-time-show" id="taskbar-time-show">10:00:00<br>1949/10/1</div>
     </div>
     <div id="start-menu" class="start-menu">
         <div class="start-menu-user"><i class="bi bi-person"></i><a>Admin</a></div>
-        <p class="start-menu-tips-text">推荐的应用</p>
+        <div class="start-menu-power-btn all-apps">所有应用<i class="bi bi-chevron-right"></i></div>
+        <p class="start-menu-tips-text recommended">推荐的应用</p>
         <div id="start-menu-item" class="start-menu-item">
             <div>
+                <div onclick="window.open('https://github.com/lh11117/windows9')">
+                    <i class="bi bi-github"></i>
+                    GitHub
+                </div>
                 <div>
                     <i class="bi bi-browser-edge"></i>
                     Microsoft Edge
                 </div>
-                <div>
+                <div onclick="ShowWin('setting')">
                     <i class="bi bi-gear"></i>
                     设置
                 </div>
@@ -35,7 +41,7 @@
             <div class="start-menu-power-btn" onclick="window.location.href='shutdown.html'">
                 <i class="bi bi-power"></i>关机
             </div>
-            <div class="start-menu-power-extensions-btn" onclick="$('#start-menu-power-extensions').toggleClass('show')">
+            <div class="start-menu-power-extensions-btn" onclick="$('#start-menu-power-extensions').addClass('show')">
                 <i class="bi bi-chevron-right"></i>
             </div>
         </div>
@@ -46,6 +52,20 @@
             <div class="start-menu-power-btn" onclick="window.location.href='reboot.html'">
                 <i class="bi bi-arrow-clockwise"></i>重启
             </div>
+        </div>
+    </div>
+    <div class="window setting">
+        <div class="title-bar">
+            <icon><i class="bi bi-gear win9-title-icon"></i></icon>
+            <p class="win9-title-text">设置</p>
+            <div class="win9-windows-control-btn-group">
+                <a class="win9-windows-control-btn min" onclick="MinWin('setting')"><i class="bi bi-dash-lg"></i></a>
+                <a class="win9-windows-control-btn max" onclick="MaxWin('setting')"><i class="bi bi-square"></i></a>
+                <a class="win9-windows-control-btn close" onclick="CloseWin('setting')"><i class="bi bi-x"></i></a>
+            </div>
+        </div>
+        <div class="window-frame">
+            hello
         </div>
     </div>
 </body>
