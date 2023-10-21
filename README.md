@@ -24,9 +24,6 @@ Windows 9 网页版是一个开放源项目，
 
 - 在线体验：<https://lh11117.github.io/windows9>
 
-<!-- ## 效果展示
-
-> 新的版本有很大的变化，图片仅供参考，以实物为主。点[这里](https://lh11117.github.io/windows9)查看实物。-->
 
 ## Q&A
 ```
