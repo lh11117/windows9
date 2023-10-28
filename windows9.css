@@ -1,5 +1,5 @@
 @import url(bootstrap-icon/bootstrap-icons.min.css);
-
+@import url(win9gui.css);
 
 * {
     moz-user-select: -moz-none;
@@ -29,6 +29,7 @@ body {
     padding-top: 10px;
     z-index: 101;
     display: flex;
+    border-top: 1px solid gray;
 }
 
 .taskbar>.taskbar-icons {
@@ -72,6 +73,14 @@ body {
 
 .taskbar>.taskbar-icons>div>icon:hover {
     background-color: #7c7c7c;
+}
+
+.taskbar>.show-desktop {
+    width: 10px;
+    border-left: 1px solid gray;
+    margin: 0px;
+    padding: 0px;
+    transform: translate(0%, -25%);
 }
 
 .taskbar>icon.winlogo>i.bi {
@@ -287,13 +296,14 @@ body {
 .window {
     position: absolute;
     background-color: #76d81970;
-    width: 50%;
-    height: 50%;
+    width: 80%;
+    height: 80%;
     margin: 0px;
     padding: 0px;
-    top: 25%;
-    left: 25%;
+    top: 10%;
+    left: 10%;
     display: none;
+    border: 1px solid gray;
 }
 
 .window.show {
@@ -322,11 +332,6 @@ body {
     width: 20px;
     padding: 5px;
     border-radius: 15%;
-    transition: background-color 0.5s;
-}
-
-.window>.title-bar>icon:hover {
-    background-color: gray;
 }
 
 .window>.title-bar>.win9-title-text {
@@ -361,6 +366,13 @@ body {
     background-color: gray;
 }
 
+.window>.title-bar>.win9-windows-control-btn-group>a.win9-windows-control-btn.max>img {
+    position: absolute;
+    top:50%;
+    left:50%;
+    transform: translate(-50%,-50%);
+}
+
 .window>.title-bar>.win9-windows-control-btn-group>a.win9-windows-control-btn.close {
     background-color: rgb(183, 0, 0);
     font-size: 20pt;
@@ -384,4 +396,85 @@ body {
     flex-grow: 1;
     margin: 10px;
     margin-top: 5px;
+}
+
+
+/* 设置的样式表 */
+.win9-setting {
+    display: flex;
+    width: 100%;
+    height: 100%;
+}
+
+.win9-setting>.left {
+    width: 550px;
+    height: auto;
+    background-color: #f2f2f1;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    position: relative;
+}
+
+.win9-setting>.left>a {
+    color: #4120aa;
+    font-size: 30pt;
+    padding-top: 30px;
+    padding-bottom: 20px;
+    padding-left: 85px;
+}
+
+.win9-setting>.left>.item {
+    flex-grow: 1;
+    background-color: #f2f2f1;
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 102.67px;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    padding-bottom: 40px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.win9-setting>.left>.item>a.items {
+    background-color: #f2f2f1;
+    padding-left: 85px;
+    color: #000;
+    font-size: 16pt;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.win9-setting>.left>.item>a.items:hover {
+    background-color: #dcdcdc;
+}
+
+.win9-setting>.left>.item>a.items.checked {
+    background-color: #4120aa;
+    color: #fff;
+}
+
+
+.win9-setting>.right {
+    background-color: #fdfdfd;
+    flex-grow: 1;
+}
+
+.win9-setting>.right>.setting-page{
+    padding-left: 40px;
+    padding-right: 40px;
+}
+
+.win9-setting>.right>.setting-page>.tit-text {
+    color: #4120aa;
+    font-size: 16pt;
+}
+
+.win9-setting>.right>.setting-page>.mainly-text {
+    color: #000;
+    font-size: 10pt;
+    font-weight: bold;
 }

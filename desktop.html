@@ -16,6 +16,7 @@
             </div>
         </div>
         <div class="taskbar-time-show" id="taskbar-time-show">10:00:00<br>1949/10/1</div>
+        <div class="show-desktop" title="显示桌面" onclick="ShowDesktop();"></div>
     </div>
     <div id="start-menu" class="start-menu">
         <div class="start-menu-user"><i class="bi bi-person"></i><a>Admin</a></div>
@@ -23,7 +24,7 @@
         <p class="start-menu-tips-text recommended">推荐的应用</p>
         <div id="start-menu-item" class="start-menu-item">
             <div>
-                <div onclick="window.open('https://github.com/lh11117/windows9')">
+                <div onclick="window.open('https:\/\/github.com/lh11117/windows9')">
                     <i class="bi bi-github"></i>
                     GitHub
                 </div>
@@ -41,7 +42,7 @@
             <div class="start-menu-power-btn" onclick="window.location.href='shutdown.html'">
                 <i class="bi bi-power"></i>关机
             </div>
-            <div class="start-menu-power-extensions-btn" onclick="$('#start-menu-power-extensions').addClass('show')">
+            <div class="start-menu-power-extensions-btn" onclick="$('#start-menu-power-extensions').toggleClass('show')">
                 <i class="bi bi-chevron-right"></i>
             </div>
         </div>
@@ -65,7 +66,34 @@
             </div>
         </div>
         <div class="window-frame">
-            hello
+            <div class="win9-setting">
+                <div class="left">
+                    <a>电脑设置</a>
+                    <div class="item">
+                        <a class="items activation checked">激活 Windows</a>
+                        <a class="items personalize">个性化</a>
+                        <a class="items user">用户</a>
+                        <a class="items toast">通知</a>
+                        <a class="items search">搜索</a>
+                        <a class="items share">共享</a>
+                        <a class="items normal">常规</a>
+                        <a class="items private">隐私</a>
+                        <a class="items device">设备</a>
+                        <a class="items easy2use">轻松使用</a>
+                        <a class="items sync">同步你的设置</a>
+                        <a class="items family">家庭组</a>
+                        <a class="items update">Windows 更新</a>
+                    </div>
+                </div>
+                <div class="right">
+                    <div class="setting-page activation">
+                        <p class="tit-text">激活 Window</p>
+                        <p class="mainly-text">Windows现在不能激活。请稍后再尝试激活Windows。如果此问题依然存在，请与你的系统管理员或技术支持部门联系来获取帮助。</p>
+                        <br>
+                        <a class="win9-button">激活</a>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </body>

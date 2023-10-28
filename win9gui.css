@@ -1,0 +1,13 @@
+/* Windows 9 GUI控件   
+ *    持续更新中...    
+ */
+
+a.win9-button{
+    padding: 5px 15px;
+    margin: 5px;
+    background-color: #c9c9c9;
+}
+
+a.win9-button:hover{
+    background-color: #d5d5d5;
+}

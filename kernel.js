@@ -19,6 +19,9 @@ UpdateTime();
 function ShowWin(name) {
     if (!$('.window.' + name).hasClass('show')) {
         $('.window.' + name).toggleClass('show');
+        if (!$('.window.' + name).hasClass('min')) {
+            apps[name].init();
+        }
     }
     if (!$('.window.' + name).hasClass('min')) {
         if (wins.indexOf(name) == -1) {
@@ -38,10 +41,20 @@ function CloseWin(name) {
 
 function MaxWin(name) {
     var isMax = $('.window.' + name).hasClass('max');
+    if (!isMax) {
+        save_pos();
+    }
     $('.window.' + name).toggleClass('max');
     if (!isMax) {
         document.querySelectorAll('.window.' + name)[0].style.left = '0px';
         document.querySelectorAll('.window.' + name)[0].style.top = '0px';
+        $(`.window.${name}>.title-bar>.win9-windows-control-btn-group>.win9-windows-control-btn.max`).html('<img src="imgs/normal.svg"></img>');
+    } else {
+        $(`.window.${name}>.title-bar>.win9-windows-control-btn-group>.win9-windows-control-btn.max`).html('<i class="bi bi-square"></i>');
+        try {
+            document.querySelectorAll('.window.' + name)[0].style.left = window_pos[name].left;
+            document.querySelectorAll('.window.' + name)[0].style.top = window_pos[name].top;
+        } catch (e) { }
     }
 }
 
@@ -62,6 +75,7 @@ for (var i = 0; i < windows.length; i++) {
         const name = window_.className.split(' ')[1];
         if ($('.window.' + name).hasClass('max')) {
             MaxWin(name);
+            mouseX = window_.clientWidth / 2;
         }
         function MoveWin(event) {
             if ((event.clientX > 0))
@@ -98,7 +112,51 @@ function MinOrShowWin(name) {
 
 function MinWin(name) {
     $('.window.' + name).removeClass('show');
-    if (!$('.window.' + name).hasClass('min')) {
-        $('.window.' + name).toggleClass('min');
+    $('.window.' + name).addClass('min');
+}
+
+
+let window_pos = {};
+
+let apps = {
+    setting: {
+        init: () => {
+            let items = document.querySelectorAll('.win9-setting>.left>.item>a.items');
+            for (let i = 0; i < items.length; i++) {
+                items[i].addEventListener('click', () => {
+                    let items = document.querySelectorAll('.win9-setting>.left>.item>a.items');
+                    for (var j = 0; j < items.length; j++) {
+                        items[j].classList.remove('checked');
+                    }
+                    items[i].classList.toggle('checked');
+                });
+            }
+        }
+    }
+};
+function save_pos() {
+    for (var i = 0; i < windows.length; i++) {
+        let win = windows[i];
+        let name = win.className.split(' ')[1];
+        try {
+            window_pos[name] = {
+                left: win.style.left,
+                top: win.style.top,
+                height: win.style.height,
+                width: win.style.width,
+            }
+        } catch (e) { }
     }
 }
+
+save_pos();
+
+function ShowDesktop(){
+    for (var i = 0; i < windows.length; i++) {
+        let win = windows[i];
+        let name = win.className.split(' ')[1];
+        MinWin(name);
+    }
+}
+
+
