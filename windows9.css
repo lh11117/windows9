@@ -75,6 +75,11 @@ body {
     background-color: #7c7c7c;
 }
 
+.taskbar>.taskbar-icons>div>icon.taskbar-icon.high {
+    background-color: #75d819a4;
+}
+
+
 .taskbar>.show-desktop {
     width: 10px;
     border-left: 1px solid gray;
@@ -477,4 +482,41 @@ body {
     color: #000;
     font-size: 10pt;
     font-weight: bold;
+}
+
+
+/* 计算器的样式表 */
+
+.window.calc {
+    width: auto;
+    height: auto;
+    min-width: 170px;
+}
+
+.window.calc>.window-frame>input.number-show{
+    text-align: right;
+    font-size: 30pt;
+    padding: 5px;
+    margin: 5px;
+    width: 230px;
+    overflow: hidden;
+    border:0px;
+    outline:none;
+}
+
+.window.calc>.window-frame>.button-frame{
+    margin: 0px;
+    margin-bottom: 8px;
+}
+
+.window.calc>.window-frame>.button-frame>.line{
+    display: flex;
+    height: 100%;
+}
+
+.window.calc>.window-frame>.button-frame>.line>a.win9-button{
+    flex-grow: 1;
+    width: 20px;
+    text-align: center;
+    font-size: 16pt;
 }

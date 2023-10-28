@@ -36,13 +36,18 @@
                     <i class="bi bi-gear"></i>
                     设置
                 </div>
+                <div onclick="ShowWin('calc')">
+                    <i class="bi bi-calculator"></i>
+                    计算器
+                </div>
             </div>
         </div>
         <div class="start-menu-power" id="start-menu-power">
             <div class="start-menu-power-btn" onclick="window.location.href='shutdown.html'">
                 <i class="bi bi-power"></i>关机
             </div>
-            <div class="start-menu-power-extensions-btn" onclick="$('#start-menu-power-extensions').toggleClass('show')">
+            <div class="start-menu-power-extensions-btn"
+                onclick="$('#start-menu-power-extensions').toggleClass('show')">
                 <i class="bi bi-chevron-right"></i>
             </div>
         </div>
@@ -92,6 +97,51 @@
                         <br>
                         <a class="win9-button">激活</a>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="window calc">
+        <div class="title-bar">
+            <icon><i class="bi bi-calculator win9-title-icon"></i></icon>
+            <p class="win9-title-text">计算器</p>
+            <div class="win9-windows-control-btn-group">
+                <a class="win9-windows-control-btn min" onclick="MinWin('calc')"><i class="bi bi-dash-lg"></i></a>
+                <a class="win9-windows-control-btn close" onclick="CloseWin('calc')"><i class="bi bi-x"></i></a>
+            </div>
+        </div>
+        <div class="window-frame">
+            <input class="number-show" id="calc-number-input" value="0" readonly="true"></input>
+            <div class="button-frame">
+                <div class="line">
+                    <a class="win9-button" onclick="apps.calc.Square()">𝑥²</a>
+                    <a class="win9-button" onclick="apps.calc.Sqrt()">√𝑥</a>
+                    <a class="win9-button" onclick="apps.calc.Clear()">C</a>
+                    <a class="win9-button" onclick="apps.calc.ClickToolButton(1)">+</a>
+                </div>
+                <div class="line">
+                    <a class="win9-button" onclick="apps.calc.ClickNumber(7)">7</a>
+                    <a class="win9-button" onclick="apps.calc.ClickNumber(8)">8</a>
+                    <a class="win9-button" onclick="apps.calc.ClickNumber(9)">9</a>
+                    <a class="win9-button" onclick="apps.calc.ClickToolButton(2)">-</a>
+                </div>
+                <div class="line">
+                    <a class="win9-button" onclick="apps.calc.ClickNumber(4)">4</a>
+                    <a class="win9-button" onclick="apps.calc.ClickNumber(5)">5</a>
+                    <a class="win9-button" onclick="apps.calc.ClickNumber(6)">6</a>
+                    <a class="win9-button" onclick="apps.calc.ClickToolButton(3)">×</a>
+                </div>
+                <div class="line">
+                    <a class="win9-button" onclick="apps.calc.ClickNumber(1)">1</a>
+                    <a class="win9-button" onclick="apps.calc.ClickNumber(2)">2</a>
+                    <a class="win9-button" onclick="apps.calc.ClickNumber(3)">3</a>
+                    <a class="win9-button" onclick="apps.calc.ClickToolButton(4)">÷</a>
+                </div>
+                <div class="line">
+                    <a class="win9-button" onclick="apps.calc.ClickPointer()">.</a>
+                    <a class="win9-button" onclick="apps.calc.ClickNumber(0)">0</a>
+                    <a class="win9-button" onclick="apps.calc.Backspace()"><i class="bi bi-backspace"></i></a>
+                    <a class="win9-button" onclick="apps.calc.GetAnswer()">=</a>
                 </div>
             </div>
         </div>
