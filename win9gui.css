@@ -11,3 +11,9 @@ a.win9-button{
 a.win9-button:hover{
     background-color: #d5d5d5;
 }
+
+.link{
+    color: #2983cc;
+    text-decoration: underline;
+    cursor: pointer;
+}

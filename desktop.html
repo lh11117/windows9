@@ -15,7 +15,8 @@
             <div>
             </div>
         </div>
-        <div class="taskbar-time-show" id="taskbar-time-show">10:00:00<br>1949/10/1</div>
+        <div class="taskbar-time-show" id="taskbar-time-show" style="visibility: hidden;">
+            {{hour}}:{{minutes}}:{{seconds}}<br>{{year}}/{{month}}/{{day}}</div>
         <div class="show-desktop" title="显示桌面" onclick="ShowDesktop();"></div>
     </div>
     <div id="start-menu" class="start-menu">
@@ -40,6 +41,10 @@
                     <i class="bi bi-calculator"></i>
                     计算器
                 </div>
+                <div onclick="ShowWin('winver')">
+                    <i class="bi bi-info"></i>
+                    关于“Windows”
+                </div>
             </div>
         </div>
         <div class="start-menu-power" id="start-menu-power">
@@ -58,6 +63,50 @@
             <div class="start-menu-power-btn" onclick="window.location.href='reboot.html'">
                 <i class="bi bi-arrow-clockwise"></i>重启
             </div>
+        </div>
+    </div>
+    <div class="charm-bar" id="charm-bar">
+        <div class="charm-bar-items">
+            <div class="charm-bar-item search">
+                <div>
+                    <img src="imgs/charm-search.png"></img>
+                </div>
+                <p>搜索</p>
+            </div>
+            <div class="charm-bar-item share">
+                <div>
+                    <img src="imgs/charm-share.png"></img>
+                </div>
+                <p>共享</p>
+            </div>
+            <div class="charm-bar-item start">
+                <i class="bi bi-windows"></i>
+                <p>开始</p>
+            </div>
+            <div class="charm-bar-item device">
+                <div>
+                    <img src="imgs/charm-device.png"></img>
+                </div>
+                <p>设备</p>
+            </div>
+            <div class="charm-bar-item setting">
+                <div>
+                    <img src="imgs/charm-setting.png"></img>
+                </div>
+                <p>设置</p>
+            </div>
+        </div>
+        <div class="charm-bar-datetime" id="charm-bar-datetime">
+            <table>
+                <tr>
+                    <th id="charm-bar-time" rowspan="2">{{hour}}:{{minutes}}</th>
+                    <th id="charm-bar-date">{{month}}月{{day}}日
+                    <th>
+                </tr>
+                <tr>
+                    <th id="charm-bar-weekday">{{weekday_text}}</th>
+                </tr>
+            </table>
         </div>
     </div>
     <div class="window setting">
@@ -115,7 +164,7 @@
             <div class="button-frame">
                 <div class="line">
                     <a class="win9-button" onclick="apps.calc.Square()">𝑥²</a>
-                    <a class="win9-button" onclick="apps.calc.Sqrt()">√𝑥</a>
+                    <a class="win9-button" onclick="apps.calc.SquareRoot()">√𝑥</a>
                     <a class="win9-button" onclick="apps.calc.Clear()">C</a>
                     <a class="win9-button" onclick="apps.calc.ClickToolButton(1)">+</a>
                 </div>
@@ -146,8 +195,34 @@
             </div>
         </div>
     </div>
+    <div class="window winver">
+        <div class="title-bar">
+            <icon><img src="imgs/exefile.png"></img></icon>
+            <p class="win9-title-text">关于“Windows”</p>
+            <div class="win9-windows-control-btn-group">
+                <a class="win9-windows-control-btn close" onclick="CloseWin('winver')"><i class="bi bi-x"></i></a>
+            </div>
+        </div>
+        <div class="window-frame">
+            <div>
+                <p class="title"><i class="bi bi-windows"></i><a>Windows 9</a></p>
+                <hr>
+                <div title="这些都是胡扯，请勿相信！" class="text">
+                    Microsoft Windows<br/>
+                    版本 6.4 (内部版本 10000)<br/>
+                    &copy; 2014 Microsoft Corporation。保留所有权利。<br/>
+                    Windows 9 专业版 操作系统及其用户界面收美国和其他国家/地区的商标法和其他的待颁布或已颁布的知识产权法保护。
+                    <div style="height: 50px"></div>
+                    根据 <a class="link">Microsoft 软件许可条款</a>，许可如下用户使用本产品：<br/><br/>
+                    <a style="margin-left: 1rem;">Windows 用户</a>
+                </div>
+                <a class="win9-button ok-button" onclick="CloseWin('winver')">确定</a>
+            </div>
+        </div>
+    </div>
 </body>
 <script src="jquery.min.js"></script>
+<script src="vue.global.min.js"></script>
 <script src="kernel.js"></script>
 
 </html>

@@ -1,11 +1,36 @@
 /* Windows 9 系统内核 */
 
-function UpdateTime() {
-    var date = new Date();
-    var now = date.getHours() + ":" + (date.getMinutes().toString().length == 1 ? ('0' + date.getMinutes().toString()) : date.getMinutes().toString()) + ":" + (date.getSeconds().toString().length == 1 ? ('0' + date.getSeconds().toString()) : date.getSeconds().toString()) + "\n" + date.getFullYear() + "/" + (date.getMonth() + 1) + "/" + date.getDate();
-    document.getElementById('taskbar-time-show').innerText = now;
+const time = {
+    data() {
+        return {
+            hour: null,
+            minutes: null,
+            seconds: null,
+            year: null,
+            month: null,
+            day: null,
+            weekday_text: null
+        }
+    }
 }
 
+taskbar_time = Vue.createApp(time).mount('#taskbar-time-show');
+charm_time = Vue.createApp(time).mount('#charm-bar-datetime');
+
+function UpdateTime() {
+    var date = new Date();
+    taskbar_time.hour = date.getHours();
+    taskbar_time.minutes = (date.getMinutes().toString().length == 1 ? ('0' + date.getMinutes().toString()) : date.getMinutes().toString());
+    taskbar_time.seconds = (date.getSeconds().toString().length == 1 ? ('0' + date.getSeconds().toString()) : date.getSeconds().toString());
+    taskbar_time.year = date.getFullYear();
+    taskbar_time.month = (date.getMonth() + 1);
+    taskbar_time.day = date.getDate();
+    charm_time.weekday_text = ((week) => { switch (week) { case 0: return "星期日"; case 1: return "星期一"; case 2: return "星期二"; case 3: return "星期三"; case 4: return "星期四"; case 5: return "星期五"; case 6: return "星期六"; } })(date.getDay());
+    charm_time.hour = taskbar_time.hour;
+    charm_time.minutes = taskbar_time.minutes;
+    charm_time.month = taskbar_time.month;
+    charm_time.day = taskbar_time.day;
+}
 
 // 日期
 setTimeout(() => {
@@ -13,11 +38,12 @@ setTimeout(() => {
     setInterval(UpdateTime, 1000)
 }, 1000 - (new Date()).getMilliseconds());
 UpdateTime();
+document.getElementById('taskbar-time-show').style.visibility = 'visible'; /* 这样做是为了避免让用户看见vue代码 */
 
 
 /* 窗口操作 */
 
-let NoMax = ['calc'];
+let NoMax = ['calc', 'winver'];
 
 function ShowWin(name) {
     if (!$('.window.' + name).hasClass('show')) {
@@ -81,11 +107,15 @@ for (var i = 0; i < windows.length; i++) {
     const window_ = windows[i];
     const title_bar = title_bars[i];
     const name = window_.className.split(' ')[1];
+    const icon = document.querySelectorAll('.window>.title-bar>icon')[i];
     if (!NoMax.includes(window_.className.split(' ')[1])) {
         title_bar.addEventListener('dblclick', function () {
-            MaxWin(window_.className.split(' ')[1]);
+            MaxWin(name);
         });
     }
+    icon.addEventListener('dblclick', function () {
+        CloseWin(name);
+    });
     window_.addEventListener('mousedown', function (event) {
         TopWin(name);
     });
@@ -117,13 +147,38 @@ for (var i = 0; i < windows.length; i++) {
     });
 }
 
+function is_in_element(event, element) {
+    var div = element;
+    var x = event.clientX
+    var y = event.clientY
+    var divx1 = div.offsetLeft
+    var divy1 = div.offsetTop
+    var divx2 = div.offsetLeft + div.offsetWidth
+    var divy2 = div.offsetTop + div.offsetHeight
+    return (x < divx1 || x > divx2 || y < divy1 || y > divy2)
+}
+
+page.addEventListener('mousemove', function (event) {
+    if (window.innerWidth - event.clientX < 10 && ((window.innerHeight - event.clientY < 10) || (event.clientY < 10))) {
+        $('#charm-bar').addClass('show');
+    }
+});
+page.addEventListener('mousedown', function (event) {
+    if (window.innerWidth - event.clientX > document.getElementById('charm-bar').clientWidth) {
+        if (is_in_element(event, document.querySelectorAll('#charm-bar>.charm-bar-datetime')[0])) {
+            $('#charm-bar').removeClass('show');
+        }
+    }
+});
+
+
 var wins = [];
 var windows_z_index = [];
 
 function DrawTaskbar() {
     $('.taskbar>.taskbar-icons>div').html(``);
     wins.forEach((item) => {
-        $('.taskbar>.taskbar-icons>div').append(`<icon class="taskbar-icon ${(windows_z_index.indexOf(item)==0?'high':'')}" onclick="TaskbarIconClick('${item}')" title='${$('.window.' + item + '>.title-bar>p.win9-title-text')[0].innerText}'>${$('.window.' + item + '>.title-bar>icon')[0].innerHTML}</icon>`);
+        $('.taskbar>.taskbar-icons>div').append(`<icon class="taskbar-icon ${(windows_z_index.indexOf(item) == 0 ? 'high' : '')}" onclick="TaskbarIconClick('${item}')" title='${$('.window.' + item + '>.title-bar>p.win9-title-text')[0].innerText}'>${$('.window.' + item + '>.title-bar>icon')[0].innerHTML}</icon>`);
     });
 }
 
@@ -256,7 +311,6 @@ let apps = {
                     apps.calc.element.value = "0";
                     break;
                 default:
-                    console.log('Windows 9 计算器：提供的按键id不正确。');
                     break;
             }
         },
@@ -300,7 +354,7 @@ let apps = {
         Square: () => {
             apps.calc.element.value = Math.pow(Number(apps.calc.element.value), 2).toString();
         },
-        Sqrt: () => {
+        SquareRoot: () => {
             apps.calc.element.value = Math.sqrt(Number(apps.calc.element.value)).toString();
         }
     }

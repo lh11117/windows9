@@ -66,6 +66,11 @@ body {
     border-bottom: solid #01cafd;
 }
 
+.taskbar>.taskbar-icons>div>icon>img {
+    height: 20px;
+    width: 20px;
+}
+
 .taskbar>.taskbar-icons>div>icon>i.bi {
     padding: 5px;
 }
@@ -76,7 +81,7 @@ body {
 }
 
 .taskbar>.taskbar-icons>div>icon.taskbar-icon.high {
-    background-color: #75d819a4;
+    background-color: #6c6c6c75;
 }
 
 
@@ -110,6 +115,120 @@ body {
 .taskbar>icon.winlogo:hover {
     color: rgb(0, 34, 255);
     background-color: #7c7c7c;
+}
+
+/* Charm Bar */
+.charm-bar {
+    display: none;
+}
+
+@keyframes charm-bar-show {
+    from {
+        width: 0px;
+    }
+
+    to {
+        width: 100px;
+    }
+}
+
+.charm-bar.show {
+    display: flex;
+    flex-direction: column;
+    width: 100px;
+    background-color: #131313;
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    height: 100%;
+    z-index: 200;
+    animation: charm-bar-show 0.2s linear;
+    animation-fill-mode: forwards;
+}
+
+.charm-bar>.charm-bar-items {
+    position: absolute;
+    top: 50%;
+    transform: translate(0%, -50%);
+}
+
+.charm-bar>.charm-bar-items>.charm-bar-item {
+    width: 100px;
+    height: 100px;
+    position: relative;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 25px;
+    transition: background-color 0.5s;
+}
+
+.charm-bar>.charm-bar-items>.charm-bar-item:hover {
+    background-color: #303030;
+}
+
+.charm-bar>.charm-bar-items>.charm-bar-item>i.bi {
+    font-size: 40pt;
+    color: #fff;
+}
+
+.charm-bar>.charm-bar-items>.charm-bar-item.start>i.bi {
+    color: #5252fd;
+}
+
+.charm-bar>.charm-bar-items>.charm-bar-item>div {
+    text-indent: -100px;
+    overflow: hidden;
+}
+
+.charm-bar>.charm-bar-items>.charm-bar-item>div>img {
+    width: 53.33px;
+    height: 53.33px;
+    filter: drop-shadow(100px 0px white);
+    padding-top: 15px;
+}
+
+.charm-bar>.charm-bar-items>.charm-bar-item>p {
+    font-size: 13pt;
+    color: #bbb;
+    text-align: center;
+    position: absolute;
+    left: 0px;
+    margin: 0px;
+    transform: translate(100%, 0%);
+}
+
+.charm-bar-datetime {
+    position: absolute;
+    bottom: 30px;
+    left: 30px;
+    background-color: #131313;
+    z-index: 200;
+    display: flex;
+    padding-left: 20px;
+    padding-right: 20px;
+    /* 绝对位置相对于body */
+    position: fixed;
+}
+
+#charm-bar-time,
+#charm-bar-date,
+#charm-bar-weekday {
+    color: #fff;
+    font-weight: 100;
+}
+
+#charm-bar-time {
+    font-size: 60pt;
+}
+
+#charm-bar-date,
+#charm-bar-weekday {
+    font-size: 25pt;
+    padding-left: 30px;
+}
+
+.charm-bar-datetime>table {
+    border: none;
 }
 
 
@@ -339,6 +458,12 @@ body {
     border-radius: 15%;
 }
 
+.window>.title-bar>icon>img {
+    height: 20px;
+    width: 20px;
+    margin-left: 5px;
+}
+
 .window>.title-bar>.win9-title-text {
     flex-grow: 1;
     margin: 0px;
@@ -373,9 +498,9 @@ body {
 
 .window>.title-bar>.win9-windows-control-btn-group>a.win9-windows-control-btn.max>img {
     position: absolute;
-    top:50%;
-    left:50%;
-    transform: translate(-50%,-50%);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 .window>.title-bar>.win9-windows-control-btn-group>a.win9-windows-control-btn.close {
@@ -468,7 +593,7 @@ body {
     flex-grow: 1;
 }
 
-.win9-setting>.right>.setting-page{
+.win9-setting>.right>.setting-page {
     padding-left: 40px;
     padding-right: 40px;
 }
@@ -493,30 +618,77 @@ body {
     min-width: 170px;
 }
 
-.window.calc>.window-frame>input.number-show{
+.window.calc>.window-frame>input.number-show {
     text-align: right;
     font-size: 30pt;
     padding: 5px;
     margin: 5px;
     width: 230px;
     overflow: hidden;
-    border:0px;
-    outline:none;
+    border: 0px;
+    outline: none;
 }
 
-.window.calc>.window-frame>.button-frame{
+.window.calc>.window-frame>.button-frame {
     margin: 0px;
     margin-bottom: 8px;
 }
 
-.window.calc>.window-frame>.button-frame>.line{
+.window.calc>.window-frame>.button-frame>.line {
     display: flex;
     height: 100%;
 }
 
-.window.calc>.window-frame>.button-frame>.line>a.win9-button{
+.window.calc>.window-frame>.button-frame>.line>a.win9-button {
     flex-grow: 1;
     width: 20px;
     text-align: center;
     font-size: 16pt;
+}
+
+/* winver的样式表 */
+.window.winver {
+    height: auto;
+    width: 576px;
+    min-height: 500px;
+}
+
+.window.winver>.title-bar>icon>img {
+    height: 16px;
+    margin-top: 3px;
+}
+
+.window.winver>.title-bar>p.win9-title-text {
+    padding-left: 10px;
+}
+
+.window.winver>.window-frame>div>p.title {
+    color: #5bc6f8;
+    font-size: 30pt;
+    text-align: center;
+}
+
+.window.winver>.window-frame {
+    position: relative;
+}
+
+.window.winver>.window-frame>div>hr {
+    margin: 10px;
+}
+
+.window.winver>.window-frame>div>p.title>i.bi.bi-windows {
+    margin-right: 10px;
+}
+
+.window.winver>.window-frame>div>div.text {
+    margin: 75px;
+    margin-top: 10px;
+    margin-bottom: 60px;
+    font-size: 10pt;
+}
+
+.window.winver>.window-frame>div>a.ok-button {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
 }
