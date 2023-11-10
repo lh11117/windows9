@@ -41,6 +41,13 @@ UpdateTime();
 document.getElementById('taskbar-time-show').style.visibility = 'visible'; /* 这样做是为了避免让用户看见vue代码 */
 
 
+$('img').on('dragstart', () => {
+    return false;
+});
+
+var isMouseDown = false;
+
+
 /* 窗口操作 */
 
 let NoMax = ['calc', 'winver'];
@@ -58,7 +65,7 @@ function ShowWin(name) {
         if (wins.indexOf(name) == -1) {
             wins.push(name);
             windows_z_index.unshift(name);
-            DrawTaskbar();
+            SetWindow_zIndex();
         }
     } else {
         $('.window.' + name).removeClass('min');
@@ -160,15 +167,21 @@ function is_in_element(event, element) {
 
 page.addEventListener('mousemove', function (event) {
     if (window.innerWidth - event.clientX < 10 && ((window.innerHeight - event.clientY < 10) || (event.clientY < 10))) {
-        $('#charm-bar').addClass('show');
+        if (!isMouseDown) {
+            $('#charm-bar').addClass('show');
+        }
     }
 });
 page.addEventListener('mousedown', function (event) {
+    isMouseDown = true;
     if (window.innerWidth - event.clientX > document.getElementById('charm-bar').clientWidth) {
         if (is_in_element(event, document.querySelectorAll('#charm-bar>.charm-bar-datetime')[0])) {
             $('#charm-bar').removeClass('show');
         }
     }
+});
+page.addEventListener('mouseup', function (event) {
+    isMouseDown = false;
 });
 
 
@@ -178,7 +191,7 @@ var windows_z_index = [];
 function DrawTaskbar() {
     $('.taskbar>.taskbar-icons>div').html(``);
     wins.forEach((item) => {
-        $('.taskbar>.taskbar-icons>div').append(`<icon class="taskbar-icon ${(windows_z_index.indexOf(item) == 0 ? 'high' : '')}" onclick="TaskbarIconClick('${item}')" title='${$('.window.' + item + '>.title-bar>p.win9-title-text')[0].innerText}'>${$('.window.' + item + '>.title-bar>icon')[0].innerHTML}</icon>`);
+        $('.taskbar>.taskbar-icons>div').append(`<icon draggable="false" class="taskbar-icon ${item} ${(windows_z_index.indexOf(item) == 0 ? 'high' : '')}" onclick="TaskbarIconClick('${item}')" title='${$('.window.' + item + '>.title-bar>p.win9-title-text')[0].innerText}'>${$('.window.' + item + '>.title-bar>icon')[0].innerHTML}</icon>`);
     });
 }
 
@@ -254,15 +267,27 @@ let apps = {
     setting: {
         init: () => {
             let items = document.querySelectorAll('.win9-setting>.left>.item>a.items');
+            let pages = document.querySelectorAll('.win9-setting>.right>.setting-page');
             for (let i = 0; i < items.length; i++) {
                 items[i].addEventListener('click', () => {
-                    let items = document.querySelectorAll('.win9-setting>.left>.item>a.items');
                     for (var j = 0; j < items.length; j++) {
                         items[j].classList.remove('checked');
                     }
                     items[i].classList.toggle('checked');
+                    apps.setting.gotoPage(items[i].classList[1]);
                 });
             }
+            apps.setting.gotoPage('activation');
+        },
+        gotoPage: (name) => {
+            let pages = document.querySelectorAll('.win9-setting>.right>.setting-page');
+            for (var j = 0; j < pages.length; j++) {
+                pages[j].classList.remove('show');
+            }
+            try {
+                document.querySelectorAll(`.win9-setting>.right>.setting-page.${name}`)[0].classList.toggle('show');
+            } catch (e) { return 1; }
+            return 0;
         }
     },
     calc: {
@@ -271,7 +296,7 @@ let apps = {
         num1: null,
         num2: null,
         init: () => {
-
+            apps.calc.Clear();
         },
         ClickNumber: (n) => {
             /* 按下数字键 */

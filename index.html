@@ -1,25 +1,80 @@
 <!DOCTYPE html>
 <html>
-<!-- 这个页面用于加载资源 -->
+<!-- 开机引导 + 资源加载 -->
 
 <head>
-    <title>Wait...</title>
+    <link rel="stylesheet" href="loading.css">
+    <link rel="stylesheet" href="winload.css">
+    <title>Windows 9</title>
+    <style>
+        :root {
+            --picture-size: 125px;
+        }
+
+        body {
+            background: #000;
+        }
+
+        .center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        div.box {
+            width: var(--picture-size);
+            height: var(--picture-size);
+            text-indent: calc(var(--picture-size)*-1);
+            overflow: hidden;
+        }
+
+        .windowslogo {
+            filter: drop-shadow(var(--picture-size) 0px #01cafd);
+            width: var(--picture-size);
+        }
+
+        .loading {
+            display: none;
+        }
+    </style>
 </head>
 
 <body>
-    <p id="loading">海内存知己，天涯若比邻。<br>请稍后……<br><br><br><br>正在加载一些资源，完成将自动跳转。</p>
-    <div style="display: none;">
+    <div class="main center">
+        <div class="box">
+            <img src="imgs/windows.svg" class="windowslogo"></img>
+        </div>
+        <div class="loader" style="margin-bottom: 75px;">
+            <div class="circle"></div>
+            <div class="circle"></div>
+            <div class="circle"></div>
+            <div class="circle"></div>
+            <div class="circle"></div>
+        </div>
+    </div>
+    <div class="loading">
         <img src="win9bg.jpg"></img>
         <link rel="stylesheet" href="bootstrap-icon/bootstrap-icons.min.css">
         <script src="jquery.min.js"></script>
         <script src="kernel.js"></script>
-        <link rel="stylesheet" href="winload.css">
-        <link rel="stylesheet" href="loading.css">
+        <script src="vue.global.min.js"></script>
+        <i class="bi bi-windows"></i>
     </div>
     <script>
+        var canJump = false;
+        setTimeout(() => {
+            canJump = true;   /* 防止时间太短，没有加载页面 */
+        }, 5000);
         window.onload = function () {
-            document.getElementById('loading').innerHTML += "<br><br>加载完成！<br>如果您的浏览器没有自动跳转，请点击：<a href='winload.html'>这里<a>"
-            window.location.href = 'winload.html';
+            if (canJump) {
+                window.location.href = 'logonui.html';
+            }
+            else {
+                setTimeout(() => {
+                    window.location.href = 'logonui.html';
+                }, 5000);
+            }
         };
     </script>
 </body>
