@@ -18,6 +18,11 @@ a.win9-button:hover{
     cursor: pointer;
 }
 
+.link:hover{
+    color: #2957cc;
+    text-decoration: none;
+}
+
 a.win9-notice-button{
     padding: 3px 25px;
     margin: 10px;

@@ -83,7 +83,7 @@ body {
 
 
 .taskbar>.taskbar-icons>div>icon:hover {
-    background-color: #7c7c7c;
+    background-color: #8f8f8f6e;
 }
 
 .taskbar>.taskbar-icons>div>icon.taskbar-icon.high {
@@ -421,6 +421,93 @@ body {
     padding: 0px;
     margin-right: 5px;
     transform: translate(0%, -25%);
+    cursor: pointer;
+    transition: background-color 0.5s;
+    height: 125%;
+}
+
+.taskbar-time-show:hover{
+    background-color: #ffffff65;
+}
+
+.timedate{
+    position: absolute;
+    bottom: 50px;
+    background-color: #fff;
+    right: 5px;
+    padding: 20px;
+    border: #01cafd solid 5px;
+    display: none;
+    z-index: 100;
+}
+
+@keyframes timedate-show {
+    0% {
+        height: 0px;
+    }
+
+    100% {
+        height: 426.67px;
+    }
+}
+
+.timedate.show{
+    display: block;
+    animation: timedate-show 0.2s linear;
+    animation-fill-mode: forwards;
+}
+
+.timedate>.year-month-show{
+    font-size: 15pt;
+    font-weight: 550;
+    display: flex;
+}
+
+.timedate>.year-month-show>p{
+    margin: 10px 0;
+    flex-grow: 1;
+}
+
+.timedate>.year-month-show>div.button-group{
+    position: absolute;
+    right: 20px;
+    top: 30px;
+}
+
+.timedate>.dates{
+    display: flex;
+    flex-direction: column;
+    margin-top: 50px;
+}
+
+.timedate>.dates>.line{
+    display: flex;
+    flex-grow: 1;
+}
+
+.timedate>.dates>.line.week>a{
+    font-size:12pt;
+    padding: 0px;
+    width: 40px;
+    height: auto;
+}
+
+.timedate>.dates>.line>a{
+    text-align: center;
+    height: 20px;
+    width: 20px;
+    padding: 10px;
+    margin: 5px;
+    border-radius: 3px;
+}
+
+.timedate>.dates>.line>a.checked.date{
+    background-color: #2189ff;
+    color: #fff;
+}
+
+.timedate>.dates>.line>a.space{
+    visibility: hidden;
 }
 
 

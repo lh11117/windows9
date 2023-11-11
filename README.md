@@ -3,7 +3,6 @@
 这是一个 Windows 9 的网页版，作者：[lh11117](https://github.com/lh11117)，项目地址：<https://github.com/lh11117/windows9>
 
 ---
-<font size="15">目录</font>
 - [Windows 9](#windows-9)
   - [声明](#声明)
   - [前言](#前言)

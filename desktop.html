@@ -16,9 +16,11 @@
             <div>
             </div>
         </div>
-        <div class="taskbar-time-show" id="taskbar-time-show" style="visibility: hidden;">
+        <div class="taskbar-time-show" id="taskbar-time-show" style="visibility: hidden;"
+            onclick="$('#win9-timedate').toggleClass('show')">
             {{hour}}:{{minutes}}:{{seconds}}<br>{{year}}/{{month}}/{{day}}</div>
-        <div class="show-desktop" title="显示桌面" onclick="ShowDesktop();"></div>
+        <div class="show-desktop" title="显示桌面" onclick="ShowDesktop();"
+            oncontextmenu="showMenu('titlebar-showdesktop',event)"></div>
     </div>
     <div id="start-menu" class="start-menu">
         <div class="start-menu-user"><i class="bi bi-person"></i><a>Admin</a></div>
@@ -64,6 +66,23 @@
             <div class="start-menu-power-btn" onclick="window.location.href='reboot.html'">
                 <i class="bi bi-arrow-clockwise"></i>重启
             </div>
+        </div>
+    </div>
+    <div class="timedate" id="win9-timedate">
+        <div class="year-month-show">
+            <p>{{year}}年{{month}}月</p>
+            <div class="button-group">
+                <a class="win9-button"
+                    onclick="if(--date_data.month<1){date_data.month=12;date_data.year--;}SetDateList(date_data.year, date_data.month);">
+                    <i class="bi bi-caret-up-fill"></i>
+                </a><a class="win9-button"
+                    onclick="if(++date_data.month>12){date_data.month=1;date_data.year++;}SetDateList(date_data.year, date_data.month);">
+                    <i class="bi bi-caret-down-fill"></i>
+                </a>
+            </div>
+        </div>
+        <div class="dates">
+
         </div>
     </div>
     <div class="charm-bar" id="charm-bar">

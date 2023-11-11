@@ -16,6 +16,7 @@ const time = {
 
 taskbar_time = Vue.createApp(time).mount('#taskbar-time-show');
 charm_time = Vue.createApp(time).mount('#charm-bar-datetime');
+timedate_time = Vue.createApp(time).mount('#win9-timedate');
 
 function UpdateTime() {
     var date = new Date();
@@ -32,13 +33,89 @@ function UpdateTime() {
     charm_time.day = taskbar_time.day;
 }
 
-// 日期
+/* 日期 */
 setTimeout(() => {
     UpdateTime();
     setInterval(UpdateTime, 1000)
 }, 1000 - (new Date()).getMilliseconds());
 UpdateTime();
 document.getElementById('taskbar-time-show').style.visibility = 'visible'; /* 这样做是为了避免让用户看见vue代码 */
+
+/* 任务栏 -- 时间和日期 */
+function GetMonthLastDay(year, month) {
+    switch (month) {
+        case 1:
+        case 3:
+        case 5:
+        case 7:
+        case 8:
+        case 10:
+        case 12:
+            return 31;
+        case 4:
+        case 6:
+        case 9:
+        case 11:
+            return 30;
+        case 2:
+            return (year % 4 == 0 && year % 100 != 0) || year % 400 == 0 ? 29 : 28;
+    }
+}
+
+function SetDateList(year, month) {
+    var date = new Date();
+    date.setFullYear(year);
+    date.setDate(1);
+    date.setMonth(month);
+    var first_day = date.getDay();
+    if (first_day == 0) {
+        first_day = 7;
+    }
+    var element = $('.timedate>.dates');
+    element.html(`<div class="line week"><a>周一</a><a>周二</a><a>周三</a><a>周四</a><a>周五</a><a>周六</a><a>周日</a></div><div class="line l1"></div>`);
+    console.log(first_day)
+    for (var i = 0; i < first_day - 1; i++) {
+        $('.timedate>.dates>.line.l1').append('<a class="space"></a>')
+    }
+    for (var i = 0; i < 8 - first_day; i++) {
+        $('.timedate>.dates>.line.l1').append(`<a class="date d${i + 1}">${i + 1}</a>`)
+    }
+    var day = 8 - first_day;
+    var i;
+    for (i = 0; day < GetMonthLastDay(year, month); i++) {
+        var new_line = document.createElement('div');
+        new_line.className = 'line l' + (i + 2);
+        for (var j = 0; j < 7; j++) {
+            day++;
+            if (day > GetMonthLastDay(year, month)) {
+                break;
+            }
+            var new_date = document.createElement('a');
+            new_date.className = 'date d' + day;
+            new_date.innerHTML = day.toString();
+            new_line.appendChild(new_date);
+        }
+        document.querySelectorAll('.timedate>.dates')[0].appendChild(new_line);
+    }
+    while (i < 5) {
+        var new_line = document.createElement('div');
+        new_line.className = 'line l' + (i + 2);
+        var new_date = document.createElement('a');
+        new_date.className = 'space';
+        new_line.appendChild(new_date);
+        document.querySelectorAll('.timedate>.dates')[0].appendChild(new_line);
+        i++;
+    }
+    $('.timedate>.dates>.line>a.date.d' + (new Date()).getDate()).addClass('checked');
+    $('.timedate>.dates>.line>a.date').click((event) => {
+        $('.timedate>.dates>.line>a.date').removeClass('checked');
+        event.target.classList.add('checked')
+    });
+    timedate_time.year = year;
+    timedate_time.month = month;
+}
+var date_data = { year: (new Date()).getFullYear(), month: (new Date()).getMonth() + 1 }
+SetDateList(date_data.year, date_data.month);
 
 
 $('img').on('dragstart', () => {
@@ -52,21 +129,29 @@ let menus = {
     'win-title-bar-fill': function (args) { return [['最小化', 'MinWin(`' + args[0] + '`);'], [$(`.window.${args[0]}`).hasClass('max') ? '还原' : '最大化', 'MaxWin(`' + args[0] + '`);'], 'split', ['关闭', 'CloseWin(`' + args[0] + '`);']] },
     'win-title-bar-nomax': function (args) { return [['最小化', 'MinWin(`' + args[0] + '`);'], 'split', ['关闭', 'CloseWin(`' + args[0] + '`);']] },
     'start-logo-menu': [['程序和功能', ''], ['电源选项', ''], ['事件查看器', ''], ['系统', ''], ['设备管理器', ''], ['磁盘管理', ''], ['计算器管理', ''], ['命令提示符', ''], ['命令提示符(管理员)', ''], 'split', ['任务管理器', ''], ['控制面板', ''], ['文件资源管理器', ''], ['搜索', ''], ['运行', ''], 'split', ['桌面', 'ShowDesktop();']],
+    'titlebar-showdesktop': [['<b>显示桌面</b>', 'ShowDesktop();'], ['查看桌面', '']],
 }
 
 function adjustElementPosition(el) {
     var rect = el.getBoundingClientRect();
-    var viewportHeight = (window.innerHeight || document.documentElement.clientHeight);
+    var viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+    var viewportWidth = window.innerWidth || document.documentElement.clientWidth;
 
     if (
         rect.top < 0 ||
         rect.left < 0 ||
-        rect.bottom > (window.innerHeight || document.documentElement.clientHeight) ||
-        rect.right > (window.innerWidth || document.documentElement.clientWidth)
+        rect.bottom > viewportHeight ||
+        rect.right > viewportWidth
     ) {
         // Element is out of viewport, adjust its position
-        el.style.bottom = `${viewportHeight - rect.top}px`;
-        el.style.top = 'auto'; // Cancel the top property
+        if (rect.bottom > viewportHeight) {
+            el.style.bottom = `${viewportHeight - rect.top}px`;
+            el.style.top = 'auto'; // Cancel the top property
+        }
+        if (rect.right > viewportWidth) {
+            el.style.right = `${viewportWidth - rect.left}px`;
+            el.style.left = 'auto'; // Cancel the left property
+        }
     }
 }
 
@@ -111,7 +196,7 @@ let notices = {
         /* 测试用 */
         title: '应用不可用',
         info: '敬请期待。',
-        buttons: [['确定', 'CloseNotice();'], ['发布看法', 'CloseNotice();window.open(`https://github.com/lh11117/windows9/issues`);', '在 GitHub 上发表 Issue']]
+        buttons: [['确定', 'CloseNotice();'], ['发表看法', 'CloseNotice();window.open(`https://github.com/lh11117/windows9/issues`);', '在 GitHub 上发表 Issue']]
     },
     'infos': {
         title: 'Windows 9 网页版',
@@ -124,6 +209,11 @@ let notices = {
         这也不是 Windows365 cloud PC<br>
         本项目中微软、Windows和其他示范产品是微软公司的商标。<br>`,
         buttons: [['确定', 'CloseNotice();'], ['GitHub', 'CloseNotice();window.open(`https://github.com/lh11117/windows9`);', 'https://github.com/lh11117/windows9']]
+    },
+    'calc.no-getanswer': {
+        title: '运算有误',
+        info: `提供的运算有误，无法进行计算！`,
+        buttons: [['确定', 'CloseNotice();']]
     }
 }
 
@@ -146,7 +236,7 @@ function ShowNotice(name) {
     });
 }
 /* 检查到本地文件或 Live Server，不显示信息，避免开发浪费时间 */
-if (!(window.location.href.includes('127.0.0.1') || window.location.href.includes('file:///'))) {
+if (!window.location.href.includes('127.0.0.1')) {
     ShowNotice('infos'); /* 显示信息 */
 }
 
@@ -336,12 +426,16 @@ function TopWin(name) {
 
 function TaskbarIconClick(name) {
     if (windows_z_index.indexOf(name) == 0) {
-        MinOrShowWin(name);
+        MinWin(name);
+        try {
+            TopWin(windows_z_index[1]);
+        } catch (e) { }
     } else {
         if (!$(`.window.${name}`).hasClass('min')) {
             TopWin(name);
         } else {
             ShowWin(name);
+            TopWin(name);
         }
     }
 }
@@ -465,6 +559,10 @@ let apps = {
                         apps.calc.num1 = Number(apps.calc.element.value);
                     } else {
                         apps.calc.num1 = apps.calc.DoCalc(apps.calc.num1, Number(apps.calc.element.value), apps.calc.key);
+                        if (apps.calc.num1 == null) {
+                            ShowNotice('calc.no-getanswer');
+                            apps.calc.Clear();
+                        }
                     }
                     apps.calc.key = id;
                     apps.calc.element.value = "0";
@@ -493,6 +591,8 @@ let apps = {
             var answer = apps.calc.DoCalc(apps.calc.num1, apps.calc.num2, apps.calc.key);
             if (answer != null) {
                 apps.calc.element.value = answer.toString();
+            } else {
+                ShowNotice('calc.no-getanswer');
             }
             apps.calc.num1 = null;
             apps.calc.num2 = null;
@@ -514,6 +614,10 @@ let apps = {
             apps.calc.element.value = Math.pow(Number(apps.calc.element.value), 2).toString();
         },
         SquareRoot: () => {
+            if (apps.calc.element.value < 0) {
+                ShowNotice('calc.no-getanswer');
+                apps.calc.Clear();
+            }
             apps.calc.element.value = Math.sqrt(Number(apps.calc.element.value)).toString();
         }
     }
