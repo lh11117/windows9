@@ -16,14 +16,14 @@
 
 ## 声明
 
-此储存库与微软没有任何关系！
-Windows 9 网页版是一个开放源项目，
-希望让用户在网络上体验传说中的 Windows 9，
-并不是微软的产品，作者是 [lh11117](https://lh11117.github.io)。
-使用标准网络技术，例如 HTML、CSS和JavaScript。
-此项目绝不附属于微软，且不应与微软操作系统或产品混淆，
-这也不是 Windows365 cloud PC
-本项目中微软、Windows和其他示范产品是微软公司的商标。
+此储存库与微软没有任何关系！<br>
+Windows 9 网页版是一个开放源项目，<br>
+希望让用户在网络上体验传说中的 Windows 9，<br>
+并不是微软的产品，作者是 [lh11117](https://lh11117.github.io)。<br>
+使用标准网络技术，例如 HTML、CSS和JavaScript。<br>
+此项目绝不附属于微软，且不应与微软操作系统或产品混淆，<br>
+这也不是 Windows365 cloud PC<br>
+本项目中微软、Windows和其他示范产品是微软公司的商标。<br>
 
 
 ## 前言
@@ -34,7 +34,7 @@ Windows 9 网页版是一个开放源项目，
 ## 体验
 
 - 在线体验：<https://lh11117.github.io/windows9>
-- 本地体验：下载后解压，双击 `winload.html` 即可。
+- 本地体验：下载后解压，双击 `index.html` 即可。
 
 ## 效果展示
 - 新的版本有很大的变化，图片仅供参考，以实物为主。点[这里](https://lh11117.github.io/windows9)查看实物。

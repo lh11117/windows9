@@ -47,6 +47,47 @@ $('img').on('dragstart', () => {
 
 var isMouseDown = false;
 
+/* 菜单 */
+let menus = {
+    'win-title-bar-fill': function (args) { return [['最小化', 'MinWin(`' + args[0] + '`);'], [$(`.window.${args[0]}`).hasClass('max') ? '还原' : '最大化', 'MaxWin(`' + args[0] + '`);'], 'split', ['关闭', 'CloseWin(`' + args[0] + '`);']] },
+    'win-title-bar-nomax': function (args) { return [['最小化', 'MinWin(`' + args[0] + '`);'], 'split', ['关闭', 'CloseWin(`' + args[0] + '`);']] },
+}
+
+function showMenu(name, event, args) {
+    let menu_ = document.createElement('div');
+    menu_.className = 'win9-menu';
+    menu_.tabIndex = '-1';
+    menu_.style.left = event.clientX + 'px';
+    menu_.style.top = event.clientY + 'px';
+    menu_.innerHTML = '';
+    var menu = menus[name];
+    if (!menu) {
+        return true;
+    }
+    if (typeof (menu) == 'function') {
+        menu = menu(args);
+    }
+    menu.forEach((item) => {
+        if (item == 'split') {
+            menu_.innerHTML += `<hr>`;
+        } else {
+            menu_.innerHTML += `<div class="win9-menu-item" onclick="${item[1]};$('.win9-menu').blur();">${item[0]}</div>`;
+        }
+    });
+    menu_.addEventListener("blur", function (event) {
+        event.target.remove();
+    }, true);
+    document.body.appendChild(menu_);
+    menu_.focus();
+    return false;
+}
+
+document.oncontextmenu = function () {
+    return false;
+}
+
+
+
 
 /* 窗口操作 */
 
@@ -122,6 +163,7 @@ for (var i = 0; i < windows.length; i++) {
     }
     icon.addEventListener('dblclick', function () {
         CloseWin(name);
+        $('.win9-menu').blur();
     });
     window_.addEventListener('mousedown', function (event) {
         TopWin(name);
@@ -151,6 +193,21 @@ for (var i = 0; i < windows.length; i++) {
                 }
             }
         });
+    });
+    title_bar.addEventListener('contextmenu', function (event) {
+        if (NoMax.includes(name)) {
+            showMenu('win-title-bar-nomax', event, [name]);
+        } else {
+            showMenu('win-title-bar-fill', event, [name]);
+        }
+    });
+    icon.addEventListener('click', function (event) {
+        e = { clientX: event.clientX + 1, clientY: event.clientY + 1 };
+        if (NoMax.includes(name)) {
+            showMenu('win-title-bar-nomax', e, [name]);
+        } else {
+            showMenu('win-title-bar-fill', e, [name]);
+        }
     });
 }
 
@@ -263,17 +320,13 @@ function ShowDesktop() {
 
 
 
+/* app 数据 */
 let apps = {
     setting: {
         init: () => {
             let items = document.querySelectorAll('.win9-setting>.left>.item>a.items');
-            let pages = document.querySelectorAll('.win9-setting>.right>.setting-page');
             for (let i = 0; i < items.length; i++) {
                 items[i].addEventListener('click', () => {
-                    for (var j = 0; j < items.length; j++) {
-                        items[j].classList.remove('checked');
-                    }
-                    items[i].classList.toggle('checked');
                     apps.setting.gotoPage(items[i].classList[1]);
                 });
             }
@@ -281,11 +334,16 @@ let apps = {
         },
         gotoPage: (name) => {
             let pages = document.querySelectorAll('.win9-setting>.right>.setting-page');
+            let items = document.querySelectorAll('.win9-setting>.left>.item>a.items');
             for (var j = 0; j < pages.length; j++) {
                 pages[j].classList.remove('show');
             }
+            for (var j = 0; j < items.length; j++) {
+                items[j].classList.remove('checked');
+            }
+            document.querySelectorAll(`.win9-setting>.left>.item>a.items.${name}`)[0].classList.add('checked');
             try {
-                document.querySelectorAll(`.win9-setting>.right>.setting-page.${name}`)[0].classList.toggle('show');
+                document.querySelectorAll(`.win9-setting>.right>.setting-page.${name}`)[0].classList.add('show');
             } catch (e) { return 1; }
             return 0;
         }

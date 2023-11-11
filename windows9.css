@@ -540,6 +540,34 @@ body {
     overflow: auto;
 }
 
+/* 菜单样式表 */
+.win9-menu{
+    position: absolute;
+    z-index: 500;
+    padding: 5px;
+    border: 1px solid gray;
+    background-color: #fff;
+    border-radius: 2px;
+    outline:none;
+    max-height: calc(100% - 50px);
+    overflow-y: auto;
+}
+
+.win9-menu>.win9-menu-item{
+    background-color: #fff;
+    min-width: 100px;
+    transition: background-color 0.5s;
+    padding: 2px;
+}
+
+.win9-menu>.win9-menu-item:hover{
+    background-color: #c9c9c9;
+}
+
+.win9-menu>hr{
+    margin: 4px 0;
+}
+
 
 /* 设置的样式表 */
 .window.setting>.window-frame {
