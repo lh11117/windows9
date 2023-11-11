@@ -8,7 +8,8 @@
 
 <body>
     <div class="taskbar">
-        <icon class="winlogo" onclick="$('#start-menu').toggleClass('show')" title="开始">
+        <icon class="winlogo" onclick="$('#start-menu').toggleClass('show')" title="开始"
+            oncontextmenu="showMenu('start-logo-menu',event);">
             <i class="bi bi-windows"></i>
         </icon>
         <div class="taskbar-icons">
@@ -29,7 +30,7 @@
                     <i class="bi bi-github"></i>
                     GitHub
                 </div>
-                <div>
+                <div onclick="ShowNotice('app-no-using');">
                     <i class="bi bi-browser-edge"></i>
                     Microsoft Edge
                 </div>
@@ -109,6 +110,15 @@
             </table>
         </div>
     </div>
+    <div class="win9-notice" id="win9-notice">
+        <div class="win9-notice-main">
+            <div class="texts">
+                <p class="title">标题</p>
+                <p class="info">——————————————内容——————————————</p>
+                <div class="buttons"><a class="win9-notice-button">好的</a></div>
+            </div>
+        </div>
+    </div>
     <div class="window setting">
         <div class="title-bar">
             <icon><i class="bi bi-gear win9-title-icon"></i></icon>
@@ -168,7 +178,7 @@
                     </div>
                     <div class="setting-page normal">
                         <p class="tit-text">常规</p>
-                        <p class="mainly-text">这是常规。</p>  
+                        <p class="mainly-text">这是常规。</p>
                     </div>
                     <div class="setting-page private">
                         <p class="tit-text">隐私</p>
@@ -256,12 +266,12 @@
                 <p class="title"><i class="bi bi-windows"></i><a>Windows 9</a></p>
                 <hr>
                 <div title="这些都是胡扯，请勿相信！" class="text">
-                    Microsoft Windows<br/>
-                    版本 6.4 (内部版本 10000)<br/>
-                    &copy; 2014 Microsoft Corporation。保留所有权利。<br/>
+                    Microsoft Windows<br />
+                    版本 6.4 (内部版本 10000)<br />
+                    &copy; 2014 Microsoft Corporation。保留所有权利。<br />
                     Windows 9 专业版 操作系统及其用户界面收美国和其他国家/地区的商标法和其他的待颁布或已颁布的知识产权法保护。
                     <div style="height: 50px"></div>
-                    根据 <a class="link">Microsoft 软件许可条款</a>，许可如下用户使用本产品：<br/><br/>
+                    根据 <a class="link">Microsoft 软件许可条款</a>，许可如下用户使用本产品：<br /><br />
                     <a style="margin-left: 1rem;">Windows 用户</a>
                 </div>
                 <a class="win9-button ok-button" onclick="CloseWin('winver')">确定</a>

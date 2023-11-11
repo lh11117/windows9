@@ -17,3 +17,14 @@ a.win9-button:hover{
     text-decoration: underline;
     cursor: pointer;
 }
+
+a.win9-notice-button{
+    padding: 3px 25px;
+    margin: 10px;
+    background-color: #210562;
+    border: 3px solid white;
+}
+
+a.win9-notice-button:hover{
+    background-color: #4120aa;
+}

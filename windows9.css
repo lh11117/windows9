@@ -2,7 +2,6 @@
 @import url(win9gui.css);
 
 * {
-    moz-user-select: -moz-none;
     -moz-user-select: none;
     -o-user-select: none;
     -khtml-user-select: none;
@@ -551,6 +550,7 @@ body {
     outline:none;
     max-height: calc(100% - 50px);
     overflow-y: auto;
+    box-shadow: 2px 2px 2px gray;
 }
 
 .win9-menu>.win9-menu-item{
@@ -567,6 +567,50 @@ body {
 .win9-menu>hr{
     margin: 4px 0;
 }
+
+/* 通知样式表 */
+.win9-notice{
+    background-color: #00000038;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    display: none;
+    z-index: 499;
+}
+
+.win9-notice.show{
+    display: block;
+}
+
+
+.win9-notice>.win9-notice-main{
+    background-color: #210562;
+    position: absolute;
+    top: 50%;
+    left: 0px;
+    width: 100%;
+    height: auto;
+    transform: translate(0%, -50%);
+}
+
+.win9-notice>.win9-notice-main>.texts{
+    width: 60%;
+    color: #fff;
+    align-items: center;
+    margin: 0 auto;
+    margin-bottom: 65px;
+}
+
+.win9-notice>.win9-notice-main>.texts>p.title{
+    font-size: 20pt;
+}
+
+.win9-notice>.win9-notice-main>.texts>.buttons{
+    float: right;
+}
+
 
 
 /* 设置的样式表 */

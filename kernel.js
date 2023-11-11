@@ -51,6 +51,23 @@ var isMouseDown = false;
 let menus = {
     'win-title-bar-fill': function (args) { return [['最小化', 'MinWin(`' + args[0] + '`);'], [$(`.window.${args[0]}`).hasClass('max') ? '还原' : '最大化', 'MaxWin(`' + args[0] + '`);'], 'split', ['关闭', 'CloseWin(`' + args[0] + '`);']] },
     'win-title-bar-nomax': function (args) { return [['最小化', 'MinWin(`' + args[0] + '`);'], 'split', ['关闭', 'CloseWin(`' + args[0] + '`);']] },
+    'start-logo-menu': [['程序和功能', ''], ['电源选项', ''], ['事件查看器', ''], ['系统', ''], ['设备管理器', ''], ['磁盘管理', ''], ['计算器管理', ''], ['命令提示符', ''], ['命令提示符(管理员)', ''], 'split', ['任务管理器', ''], ['控制面板', ''], ['文件资源管理器', ''], ['搜索', ''], ['运行', ''], 'split', ['桌面', 'ShowDesktop();']],
+}
+
+function adjustElementPosition(el) {
+    var rect = el.getBoundingClientRect();
+    var viewportHeight = (window.innerHeight || document.documentElement.clientHeight);
+
+    if (
+        rect.top < 0 ||
+        rect.left < 0 ||
+        rect.bottom > (window.innerHeight || document.documentElement.clientHeight) ||
+        rect.right > (window.innerWidth || document.documentElement.clientWidth)
+    ) {
+        // Element is out of viewport, adjust its position
+        el.style.bottom = `${viewportHeight - rect.top}px`;
+        el.style.top = 'auto'; // Cancel the top property
+    }
 }
 
 function showMenu(name, event, args) {
@@ -71,13 +88,14 @@ function showMenu(name, event, args) {
         if (item == 'split') {
             menu_.innerHTML += `<hr>`;
         } else {
-            menu_.innerHTML += `<div class="win9-menu-item" onclick="${item[1]};$('.win9-menu').blur();">${item[0]}</div>`;
+            menu_.innerHTML += `<div class="win9-menu-item" onclick="${item[1].replace('"', '\\"')};$('.win9-menu').blur();">${item[0]}</div>`;
         }
     });
     menu_.addEventListener("blur", function (event) {
         event.target.remove();
     }, true);
     document.body.appendChild(menu_);
+    adjustElementPosition(menu_);
     menu_.focus();
     return false;
 }
@@ -87,6 +105,62 @@ document.oncontextmenu = function () {
 }
 
 
+/* 通知 */
+let notices = {
+    'app-no-using': {
+        /* 测试用 */
+        title: '应用不可用',
+        info: '敬请期待。',
+        buttons: [['确定', 'CloseNotice();'], ['发布看法', 'CloseNotice();window.open(`https://github.com/lh11117/windows9/issues`);', '在 GitHub 上发表 Issue']]
+    },
+    'infos': {
+        title: 'Windows 9 网页版',
+        info: `此项目与微软没有任何关系！<br>
+        Windows 9 网页版是一个开放源项目，<br>
+        希望让用户在网络上体验传说中的 Windows 9，<br>
+        并不是微软的产品，作者是 <a onclick="window.open('https://lh11117.github.io')" title="https://lh11117.github.io" class="link">lh11117</a>。<br>
+        使用标准网络技术，例如 HTML、CSS和JavaScript。<br>
+        此项目绝不附属于微软，且不应与微软操作系统或产品混淆，<br>
+        这也不是 Windows365 cloud PC<br>
+        本项目中微软、Windows和其他示范产品是微软公司的商标。<br>`,
+        buttons: [['确定', 'CloseNotice();'], ['GitHub', 'CloseNotice();window.open(`https://github.com/lh11117/windows9`);', 'https://github.com/lh11117/windows9']]
+    }
+}
+
+
+
+function CloseNotice() {
+    $('#win9-notice').removeClass('show');
+}
+
+function ShowNotice(name) {
+    var notice = notices[name];
+    $('#win9-notice').addClass('show');
+    $('#win9-notice>.win9-notice-main>.texts>.title').html(notice.title);
+    $('#win9-notice>.win9-notice-main>.texts>.info').html(notice.info);
+    $('#win9-notice>.win9-notice-main>.texts>.buttons').html('');
+    var i = 0;
+    notice.buttons.forEach((item) => {
+        $('#win9-notice>.win9-notice-main>.texts>.buttons').append(`<a class="win9-notice-button"${item[2] ? (` title="${item[2]}"`) : ""} tabindex="${notice.buttons.length - i}" onclick="${item[1].replace('"', '\\"')}">${item[0]}</a>`);
+        i++;
+    });
+}
+/* 检查到本地文件或 Live Server，不显示信息，避免开发浪费时间 */
+if (!(window.location.href.includes('127.0.0.1') || window.location.href.includes('file:///'))) {
+    ShowNotice('infos'); /* 显示信息 */
+}
+
+function getElementAbsolutePosition(element) {
+    var x = 0;
+    var y = 0;
+    var node = element;
+    while (node) {
+        x += node.offsetLeft;
+        y += node.offsetTop;
+        node = node.offsetParent;
+    }
+    return { x: x, y: y };
+}
 
 
 /* 窗口操作 */
@@ -169,6 +243,7 @@ for (var i = 0; i < windows.length; i++) {
         TopWin(name);
     });
     title_bar.addEventListener('mousedown', function (event) {
+        if (event.button != 0) { return; }
         mouseX = event.clientX - window_.offsetLeft;
         mouseY = event.clientY - window_.offsetTop;
         function MoveWin(event) {
@@ -194,20 +269,21 @@ for (var i = 0; i < windows.length; i++) {
             }
         });
     });
-    title_bar.addEventListener('contextmenu', function (event) {
-        if (NoMax.includes(name)) {
-            showMenu('win-title-bar-nomax', event, [name]);
-        } else {
-            showMenu('win-title-bar-fill', event, [name]);
-        }
-    });
-    icon.addEventListener('click', function (event) {
-        e = { clientX: event.clientX + 1, clientY: event.clientY + 1 };
+    function RightClickMenu(e) {
         if (NoMax.includes(name)) {
             showMenu('win-title-bar-nomax', e, [name]);
         } else {
             showMenu('win-title-bar-fill', e, [name]);
         }
+    }
+    title_bar.addEventListener('contextmenu', RightClickMenu);
+    icon.addEventListener('contextmenu', RightClickMenu);
+    icon.addEventListener('click', function (event) {
+        var win_frame = document.querySelectorAll(`.window.${name}>.window-frame`)[0];
+        pos = getElementAbsolutePosition(win_frame);
+        var x = pos.x, y = pos.y;
+        e = { clientX: x, clientY: y };
+        RightClickMenu(e);
     });
 }
 
