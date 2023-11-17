@@ -203,7 +203,7 @@ let notices = {
         info: `此项目与微软没有任何关系！<br>
         Windows 9 网页版是一个开放源项目，<br>
         希望让用户在网络上体验传说中的 Windows 9，<br>
-        并不是微软的产品，作者是 <a onclick="window.open('https://lh11117.github.io')" title="https://lh11117.github.io" class="link">lh11117</a>。<br>
+        并不是微软的产品，作者是 <a onclick="window.open('https://lh11117.github.io')" title="at github.com is lh11117, at 52pojie.cn is lccccccc" class="link">lh11117</a>。<br>
         使用标准网络技术，例如 HTML、CSS和JavaScript。<br>
         此项目绝不附属于微软，且不应与微软操作系统或产品混淆，<br>
         这也不是 Windows365 cloud PC<br>
@@ -413,8 +413,12 @@ var windows_z_index = [];
 
 function DrawTaskbar() {
     $('.taskbar>.taskbar-icons>div').html(``);
+    $('.window').removeClass('foc');
     wins.forEach((item) => {
-        $('.taskbar>.taskbar-icons>div').append(`<icon draggable="false" class="taskbar-icon ${item} ${(windows_z_index.indexOf(item) == 0 ? 'high' : '')}" onclick="TaskbarIconClick('${item}')" title='${$('.window.' + item + '>.title-bar>p.win9-title-text')[0].innerText}'>${$('.window.' + item + '>.title-bar>icon')[0].innerHTML}</icon>`);
+        if (windows_z_index.indexOf(item) == 0) {
+            $(`.window.${item}`).addClass('foc');
+        }
+        $('.taskbar>.taskbar-icons>div').append(`<icon draggable="false" class="taskbar-icon ${item} ${(windows_z_index.indexOf(item) == 0 ? 'highlight' : '')}" onclick="TaskbarIconClick('${item}')" title='${$('.window.' + item + '>.title-bar>p.win9-title-text')[0].innerText}'>${$('.window.' + item + '>.title-bar>icon')[0].innerHTML}</icon>`);
     });
 }
 

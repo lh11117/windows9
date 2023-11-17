@@ -17,7 +17,7 @@
             </div>
         </div>
         <div class="taskbar-time-show" id="taskbar-time-show" style="visibility: hidden;"
-            onclick="$('#win9-timedate').toggleClass('show')">
+            onclick="var date_data = { year: (new Date()).getFullYear(), month: (new Date()).getMonth() + 1 };SetDateList(date_data.year, date_data.month);$('#win9-timedate').toggleClass('show');">
             {{hour}}:{{minutes}}:{{seconds}}<br>{{year}}/{{month}}/{{day}}</div>
         <div class="show-desktop" title="显示桌面" onclick="ShowDesktop();"
             oncontextmenu="showMenu('titlebar-showdesktop',event)"></div>

@@ -1,6 +1,11 @@
 @import url(bootstrap-icon/bootstrap-icons.min.css);
 @import url(win9gui.css);
 
+/* 导入各个 APP 的样式表 */
+@import url(./apps/style/setting.css);
+@import url(./apps/style/calc.css);
+@import url(./apps/style/winver.css);
+
 * {
     -moz-user-select: none;
     -o-user-select: none;
@@ -29,6 +34,7 @@ body {
     z-index: 101;
     display: flex;
     border-top: 1px solid gray;
+    backdrop-filter: blur(5px);
 }
 
 .taskbar>.taskbar-icons {
@@ -86,7 +92,7 @@ body {
     background-color: #8f8f8f6e;
 }
 
-.taskbar>.taskbar-icons>div>icon.taskbar-icon.high {
+.taskbar>.taskbar-icons>div>icon.taskbar-icon.highlight {
     background-color: #6c6c6c75;
 }
 
@@ -426,11 +432,11 @@ body {
     height: 125%;
 }
 
-.taskbar-time-show:hover{
+.taskbar-time-show:hover {
     background-color: #ffffff65;
 }
 
-.timedate{
+.timedate {
     position: absolute;
     bottom: 50px;
     background-color: #fff;
@@ -439,6 +445,8 @@ body {
     border: #01cafd solid 5px;
     display: none;
     z-index: 100;
+    width: 350px;
+    overflow: hidden;
 }
 
 @keyframes timedate-show {
@@ -451,48 +459,48 @@ body {
     }
 }
 
-.timedate.show{
+.timedate.show {
     display: block;
-    animation: timedate-show 0.2s linear;
+    animation: timedate-show 0.1s linear;
     animation-fill-mode: forwards;
 }
 
-.timedate>.year-month-show{
+.timedate>.year-month-show {
     font-size: 15pt;
     font-weight: 550;
     display: flex;
 }
 
-.timedate>.year-month-show>p{
+.timedate>.year-month-show>p {
     margin: 10px 0;
     flex-grow: 1;
 }
 
-.timedate>.year-month-show>div.button-group{
+.timedate>.year-month-show>div.button-group {
     position: absolute;
     right: 20px;
     top: 30px;
 }
 
-.timedate>.dates{
+.timedate>.dates {
     display: flex;
     flex-direction: column;
     margin-top: 50px;
 }
 
-.timedate>.dates>.line{
+.timedate>.dates>.line {
     display: flex;
     flex-grow: 1;
 }
 
-.timedate>.dates>.line.week>a{
-    font-size:12pt;
+.timedate>.dates>.line.week>a {
+    font-size: 12pt;
     padding: 0px;
     width: 40px;
     height: auto;
 }
 
-.timedate>.dates>.line>a{
+.timedate>.dates>.line>a {
     text-align: center;
     height: 20px;
     width: 20px;
@@ -501,19 +509,19 @@ body {
     border-radius: 3px;
 }
 
-.timedate>.dates>.line>a.checked.date{
+.timedate>.dates>.line>a.checked.date {
     background-color: #2189ff;
     color: #fff;
 }
 
-.timedate>.dates>.line>a.space{
+.timedate>.dates>.line>a.space {
     visibility: hidden;
 }
 
 
 .window {
     position: absolute;
-    background-color: #76d81970;
+    background-color: #88888870;
     width: 80%;
     height: 80%;
     margin: 0px;
@@ -526,9 +534,15 @@ body {
     max-height: 100%;
 }
 
+.window.foc{
+    background-color: #76d81970;
+}
+
 .window.show {
     display: flex;
     flex-direction: column;
+    backdrop-filter: blur(5px);
+    box-shadow:  rgba(0, 0, 0, 0.1) 0px 0px 50px;
 }
 
 
@@ -539,6 +553,7 @@ body {
     right: 0px;
     width: 100%;
     height: auto;
+    box-shadow: none;
 }
 
 .window>.title-bar {
@@ -599,8 +614,11 @@ body {
     transform: translate(-50%, -50%);
 }
 
-.window>.title-bar>.win9-windows-control-btn-group>a.win9-windows-control-btn.close {
+.window.foc>.title-bar>.win9-windows-control-btn-group>a.win9-windows-control-btn.close {
     background-color: rgb(183, 0, 0);
+}
+
+.window>.title-bar>.win9-windows-control-btn-group>a.win9-windows-control-btn.close {
     font-size: 20pt;
 }
 
@@ -627,36 +645,36 @@ body {
 }
 
 /* 菜单样式表 */
-.win9-menu{
+.win9-menu {
     position: absolute;
     z-index: 500;
     padding: 5px;
     border: 1px solid gray;
     background-color: #fff;
     border-radius: 2px;
-    outline:none;
+    outline: none;
     max-height: calc(100% - 50px);
     overflow-y: auto;
     box-shadow: 2px 2px 2px gray;
 }
 
-.win9-menu>.win9-menu-item{
+.win9-menu>.win9-menu-item {
     background-color: #fff;
     min-width: 100px;
     transition: background-color 0.5s;
     padding: 2px;
 }
 
-.win9-menu>.win9-menu-item:hover{
+.win9-menu>.win9-menu-item:hover {
     background-color: #c9c9c9;
 }
 
-.win9-menu>hr{
+.win9-menu>hr {
     margin: 4px 0;
 }
 
 /* 通知样式表 */
-.win9-notice{
+.win9-notice {
     background-color: #00000038;
     position: absolute;
     top: 0px;
@@ -667,12 +685,12 @@ body {
     z-index: 499;
 }
 
-.win9-notice.show{
+.win9-notice.show {
     display: block;
 }
 
 
-.win9-notice>.win9-notice-main{
+.win9-notice>.win9-notice-main {
     background-color: #210562;
     position: absolute;
     top: 50%;
@@ -682,7 +700,7 @@ body {
     transform: translate(0%, -50%);
 }
 
-.win9-notice>.win9-notice-main>.texts{
+.win9-notice>.win9-notice-main>.texts {
     width: 60%;
     color: #fff;
     align-items: center;
@@ -690,212 +708,10 @@ body {
     margin-bottom: 65px;
 }
 
-.win9-notice>.win9-notice-main>.texts>p.title{
+.win9-notice>.win9-notice-main>.texts>p.title {
     font-size: 20pt;
 }
 
-.win9-notice>.win9-notice-main>.texts>.buttons{
+.win9-notice>.win9-notice-main>.texts>.buttons {
     float: right;
-}
-
-
-
-/* 设置的样式表 */
-.window.setting>.window-frame {
-    overflow: hidden;
-}
-
-.win9-setting {
-    display: flex;
-    width: 100%;
-    height: 100%;
-}
-
-.win9-setting>.left {
-    width: 550px;
-    height: auto;
-    background-color: #f2f2f1;
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    position: relative;
-    min-width: 343.23px;
-    max-width: 343.23px;
-}
-
-.win9-setting>.left>a {
-    color: #4120aa;
-    font-size: 30pt;
-    padding-top: 30px;
-    padding-bottom: 20px;
-    padding-left: 85px;
-}
-
-.win9-setting>.left>.item {
-    flex-grow: 1;
-    background-color: #f2f2f1;
-    display: flex;
-    flex-direction: column;
-    position: absolute;
-    top: 102.67px;
-    bottom: 0px;
-    left: 0px;
-    right: 0px;
-    padding-bottom: 40px;
-    overflow-y: auto;
-    overflow-x: hidden;
-}
-
-.win9-setting>.left>.item>a.items {
-    background-color: #f2f2f1;
-    padding-left: 85px;
-    color: #000;
-    font-size: 16pt;
-    padding-top: 5px;
-    padding-bottom: 5px;
-}
-
-.win9-setting>.left>.item>a.items:hover {
-    background-color: #dcdcdc;
-}
-
-.win9-setting>.left>.item>a.items.checked {
-    background-color: #4120aa;
-    color: #fff;
-}
-
-
-.win9-setting>.right {
-    background-color: #fdfdfd;
-    flex-grow: 1;
-}
-
-.win9-setting>.right>.setting-page {
-    padding-left: 40px;
-    padding-right: 40px;
-    display: none;
-}
-
-@keyframes setting-page-show {
-    from {
-        transform: translate(10%, 0%);
-    }
-
-    to {
-        transform: translate(0%, 0%);
-    }
-}
-
-.win9-setting>.right>.setting-page.show {
-    display: block;
-    animation: setting-page-show 0.1s linear;
-    animation-fill-mode: forwards;
-}
-
-.win9-setting>.right>.setting-page>.tit-text {
-    color: #4120aa;
-    font-size: 16pt;
-}
-
-.win9-setting>.right>.setting-page>.mainly-text {
-    color: #000;
-    font-size: 10pt;
-    font-weight: bold;
-}
-
-
-/* 计算器的样式表 */
-
-.window.calc {
-    width: auto;
-    height: auto;
-    min-width: 170px;
-}
-
-.window.calc>.window-frame>input.number-show {
-    text-align: right;
-    font-size: 30pt;
-    padding: 5px;
-    margin: 5px;
-    width: 230px;
-    overflow: hidden;
-    border: 0px;
-    outline: none;
-}
-
-.window.calc>.window-frame>.button-frame {
-    margin: 0px;
-    margin-bottom: 8px;
-}
-
-.window.calc>.window-frame>.button-frame>.line {
-    display: flex;
-    height: 100%;
-}
-
-.window.calc>.window-frame>.button-frame>.line>a.win9-button {
-    flex-grow: 1;
-    width: 20px;
-    text-align: center;
-    font-size: 16pt;
-}
-
-/* winver的样式表 */
-.window.winver {
-    height: auto;
-    width: 576px;
-    min-height: 500px;
-}
-
-.window.winver>.title-bar>icon {
-    display: none;
-}
-
-.window.winver>.title-bar>icon>img {
-    height: 16px;
-    margin-top: 3px;
-}
-
-.window.winver>.title-bar>p.win9-title-text {
-    padding-left: 10px;
-}
-
-.window.winver>.window-frame>div>p.title {
-    color: #5bc6f8;
-    font-size: 30pt;
-    text-align: center;
-    padding-top: auto;
-    padding-bottom: auto;
-}
-
-.window.winver>.window-frame {
-    position: relative;
-}
-
-.window.winver>.window-frame>div>hr {
-    margin: 10px;
-}
-
-.window.winver>.window-frame>div>p.title>i.bi.bi-windows {
-    margin-right: 10px;
-    font-size: 40pt;
-}
-
-.window.winver>.window-frame>div>div.text {
-    margin: 75px;
-    margin-top: 10px;
-    margin-bottom: 60px;
-    font-size: 10pt;
-}
-
-.window.winver>.window-frame>div>a.ok-button {
-    position: absolute;
-    right: 10px;
-    bottom: 10px;
-}
-
-.taskbar>.taskbar-icons>div>icon.winver>img {
-    width: 20px;
-    height: 16px;
-    margin: 0px;
 }

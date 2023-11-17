@@ -1,0 +1,59 @@
+/* winver的样式表 */
+.window.winver {
+    height: auto;
+    width: 576px;
+    min-height: 500px;
+}
+
+.window.winver>.title-bar>icon {
+    display: none;
+}
+
+.window.winver>.title-bar>icon>img {
+    height: 16px;
+    margin-top: 3px;
+}
+
+.window.winver>.title-bar>p.win9-title-text {
+    padding-left: 10px;
+}
+
+.window.winver>.window-frame>div>p.title {
+    color: #5bc6f8;
+    font-size: 30pt;
+    text-align: center;
+    padding-top: auto;
+    padding-bottom: auto;
+}
+
+.window.winver>.window-frame {
+    position: relative;
+}
+
+.window.winver>.window-frame>div>hr {
+    margin: 10px;
+}
+
+.window.winver>.window-frame>div>p.title>i.bi.bi-windows {
+    margin-right: 10px;
+    font-size: 40pt;
+}
+
+.window.winver>.window-frame>div>div.text {
+    margin: 75px;
+    margin-top: 10px;
+    margin-bottom: 60px;
+    font-size: 10pt;
+}
+
+.window.winver>.window-frame>div>a.ok-button {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+}
+
+.taskbar>.taskbar-icons>div>icon.winver>img {
+    width: 20px;
+    height: 16px;
+    margin: 0px;
+}
