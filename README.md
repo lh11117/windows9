@@ -46,6 +46,7 @@ Windows 9 网页版是一个开放源项目，<br>
 ## 效果展示
 - 新的版本有很大的变化，图片仅供参考，以实物为主。点[这里](https://lh11117.github.io/windows9)查看实物。
 - 图片来自 `GitHub`，加载较慢，请耐心等待。
+
 ---
 > ### *开始菜单*
 > <img width="316" alt="image" src="https://github.com/lh11117/test/assets/99455215/c464ef1f-e059-42a4-8ac5-84132cc4f22a">

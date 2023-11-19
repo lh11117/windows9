@@ -270,6 +270,8 @@ body {
     flex-direction: column;
     animation: start-menu-show 0.1s linear;
     animation-fill-mode: forwards;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
 .start-menu>.start-menu-item {
@@ -277,6 +279,7 @@ body {
     overflow-x: hidden;
     height: 50%;
     flex-grow: 1;
+    min-height: 50px;
 }
 
 .start-menu>.start-menu-item>div>div {
@@ -467,13 +470,19 @@ body {
 
 .timedate>.year-month-show {
     font-size: 15pt;
-    font-weight: 550;
     display: flex;
 }
 
 .timedate>.year-month-show>p {
     margin: 10px 0;
     flex-grow: 1;
+    font-weight: 550;
+}
+
+.timedate>.year-month-show>div.button-group>.date2today {
+    font-size: 12pt;
+    margin-right: 15px;
+    visibility: hidden;
 }
 
 .timedate>.year-month-show>div.button-group {
@@ -510,8 +519,15 @@ body {
 }
 
 .timedate>.dates>.line>a.checked.date {
+    border: #2189ff 5px solid;
+    padding: 5.333px;
+}
+
+.timedate>.dates>.line>a.today.date {
     background-color: #2189ff;
     color: #fff;
+    border: 0px;
+    padding: 10px;
 }
 
 .timedate>.dates>.line>a.space {
@@ -653,7 +669,7 @@ body {
     background-color: #fff;
     border-radius: 2px;
     outline: none;
-    max-height: calc(100% - 50px);
+    max-height: 90%;
     overflow-y: auto;
     box-shadow: 2px 2px 2px gray;
 }
@@ -661,8 +677,10 @@ body {
 .win9-menu>.win9-menu-item {
     background-color: #fff;
     min-width: 100px;
+    max-height: 20px;
     transition: background-color 0.5s;
     padding: 2px;
+    padding-left: 5px;
 }
 
 .win9-menu>.win9-menu-item:hover {
@@ -671,6 +689,18 @@ body {
 
 .win9-menu>hr {
     margin: 4px 0;
+}
+
+.win9-menu>.win9-menu-item>icon {
+    width: 12px;
+    height: 12px;
+    min-width: 12px;
+    margin: auto;
+    margin-right: 5px;
+}
+
+.win9-menu>.win9-menu-item>icon>i.bi {
+    font-size: 10pt;
 }
 
 /* 通知样式表 */

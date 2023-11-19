@@ -73,7 +73,6 @@ function SetDateList(year, month) {
     }
     var element = $('.timedate>.dates');
     element.html(`<div class="line week"><a>周一</a><a>周二</a><a>周三</a><a>周四</a><a>周五</a><a>周六</a><a>周日</a></div><div class="line l1"></div>`);
-    console.log(first_day)
     for (var i = 0; i < first_day - 1; i++) {
         $('.timedate>.dates>.line.l1').append('<a class="space"></a>')
     }
@@ -106,16 +105,49 @@ function SetDateList(year, month) {
         document.querySelectorAll('.timedate>.dates')[0].appendChild(new_line);
         i++;
     }
-    $('.timedate>.dates>.line>a.date.d' + (new Date()).getDate()).addClass('checked');
+    $('.timedate>.dates>.line>a.date.d' + (new Date()).getDate()).addClass('today');
     $('.timedate>.dates>.line>a.date').click((event) => {
         $('.timedate>.dates>.line>a.date').removeClass('checked');
-        event.target.classList.add('checked')
+        event.target.classList.add('checked');
+        CheckShowToday(parseInt(event.target.innerText));
+    });
+    $('.timedate>.year-month-show>div.button-group>.date2today').click(() => {
+        date_data = { year: (new Date()).getFullYear(), month: (new Date()).getMonth() + 1 }
+        SetDateList(date_data.year, date_data.month);
+        CheckShowToday((new Date()).getDate());
     });
     timedate_time.year = year;
     timedate_time.month = month;
 }
-var date_data = { year: (new Date()).getFullYear(), month: (new Date()).getMonth() + 1 }
-SetDateList(date_data.year, date_data.month);
+
+function CheckShowToday(day) {
+    if (day == (new Date()).getDate() && (date_data.month == ((new Date()).getMonth() + 1))) {
+        document.querySelectorAll('.timedate>.year-month-show>div.button-group>.date2today')[0].style.visibility = 'hidden';
+    } else {
+        document.querySelectorAll('.timedate>.year-month-show>div.button-group>.date2today')[0].style.visibility = 'visible';
+    }
+}
+
+function MonthUp() {
+    if (--date_data.month < 1) {
+        date_data.month = 12;
+        date_data.year--;
+    }
+    SetDateList(date_data.year, date_data.month);
+    CheckShowToday((new Date()).getDate());
+}
+
+function MouthDown() {
+    if (++date_data.month > 12) {
+        date_data.month = 1;
+        date_data.year++;
+    }
+    SetDateList(date_data.year, date_data.month);
+    CheckShowToday((new Date()).getDate());
+}
+
+var date_data = { year: (new Date()).getFullYear(), month: (new Date()).getMonth() + 1 };
+$('.timedate>.year-month-show>div.button-group>.date2today').click();
 
 
 $('img').on('dragstart', () => {
@@ -126,10 +158,11 @@ var isMouseDown = false;
 
 /* 菜单 */
 let menus = {
-    'win-title-bar-fill': function (args) { return [['最小化', 'MinWin(`' + args[0] + '`);'], [$(`.window.${args[0]}`).hasClass('max') ? '还原' : '最大化', 'MaxWin(`' + args[0] + '`);'], 'split', ['关闭', 'CloseWin(`' + args[0] + '`);']] },
-    'win-title-bar-nomax': function (args) { return [['最小化', 'MinWin(`' + args[0] + '`);'], 'split', ['关闭', 'CloseWin(`' + args[0] + '`);']] },
-    'start-logo-menu': [['程序和功能', ''], ['电源选项', ''], ['事件查看器', ''], ['系统', ''], ['设备管理器', ''], ['磁盘管理', ''], ['计算器管理', ''], ['命令提示符', ''], ['命令提示符(管理员)', ''], 'split', ['任务管理器', ''], ['控制面板', ''], ['文件资源管理器', ''], ['搜索', ''], ['运行', ''], 'split', ['桌面', 'ShowDesktop();']],
-    'titlebar-showdesktop': [['<b>显示桌面</b>', 'ShowDesktop();'], ['查看桌面', '']],
+    'win-title-bar-fill': function (args) { return [{ text: '最小化', js: 'MinWin(`' + args[0] + '`);', icon: '<i class="bi bi-dash-lg"></i>' }, { text: ($(`.window.${args[0]}`).hasClass('max') ? '还原' : '最大化'), js: 'MaxWin(`' + args[0] + '`);', icon: ($(`.window.${args[0]}`).hasClass('max') ? '<img src="imgs/normal-menu.svg"></img>' : '<i class="bi bi-square"></i>') }, 'split', { text: '关闭', js: 'CloseWin(`' + args[0] + '`);', icon: '<i class="bi bi-x" style="font-size: 12pt;"></i>' }] },
+    'win-title-bar-nomax': function (args) { return [{ text: '最小化', js: 'MinWin(`' + args[0] + '`);', icon: '<i class="bi bi-dash-lg"></i>' }, 'split', { text: '关闭', js: 'CloseWin(`' + args[0] + '`);', icon: '<i class="bi bi-x" style="font-size: 12pt;"></i>' }] },
+    'start-logo-menu': [{ text: '程序和功能', js: '' }, { text: '电源选项', js: '' }, { text: '事件查看器', js: '' }, { text: '系统', js: '' }, { text: '设备管理器', js: '' }, { text: '磁盘管理', js: '' }, { text: '计算器管理', js: '' }, { text: '命令提示符', js: '' }, { text: '命令提示符(管理员)', js: '' }, 'split', { text: '任务管理器', js: '' }, { text: '控制面板', js: '' }, { text: '文件资源管理器', js: '' }, { text: '搜索', js: '' }, { text: '运行', js: '' }, 'split', { text: '桌面', js: 'ShowDesktop();' }],
+    'titlebar-showdesktop': [{ text: '<b>显示桌面</b>', js: 'ShowDesktop();' }, { text: '查看桌面', js: '' }],
+    'start-power-menu': [{ text: '睡眠', js: '', icon: '<i class="bi bi-moon"></i>' }, { text: '重启', js: 'window.location.href=\'reboot.html\';', icon: '<i class="bi bi-arrow-clockwise"></i>' }]
 }
 
 function adjustElementPosition(el) {
@@ -152,6 +185,9 @@ function adjustElementPosition(el) {
             el.style.right = `${viewportWidth - rect.left}px`;
             el.style.left = 'auto'; // Cancel the left property
         }
+        if (el.getBoundingClientRect().top < 0) {
+            el.style.top = '0px';
+        }
     }
 }
 
@@ -172,8 +208,8 @@ function showMenu(name, event, args) {
     menu.forEach((item) => {
         if (item == 'split') {
             menu_.innerHTML += `<hr>`;
-        } else {
-            menu_.innerHTML += `<div class="win9-menu-item" onclick="${item[1].replace('"', '\\"')};$('.win9-menu').blur();">${item[0]}</div>`;
+        } else if (!item || item == 'null') { } else {
+            menu_.innerHTML += `<div class="win9-menu-item" onclick="${item.js.replace('"', '\\"')};$('.win9-menu').blur();"><icon>${item.icon ? item.icon : '<i class="bi bi-x" style="visibility: hidden;"></i>'}</icon>${item.text}</div>`;
         }
     });
     menu_.addEventListener("blur", function (event) {
