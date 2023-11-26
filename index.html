@@ -1,82 +1,19 @@
 <!DOCTYPE html>
 <html>
-<!-- 开机引导 + 资源加载 -->
 
 <head>
-    <link rel="stylesheet" href="loading.css">
-    <link rel="stylesheet" href="winload.css">
+    <meta http-equiv="refresh" content="0;url=desktop.html" />
     <title>Windows 9</title>
-    <style>
-        :root {
-            --picture-size: 125px;
-        }
-
-        body {
-            background: #000;
-        }
-
-        .center {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }
-
-        div.box {
-            width: var(--picture-size);
-            height: var(--picture-size);
-            text-indent: calc(var(--picture-size)*-1);
-            overflow: hidden;
-        }
-
-        .windowslogo {
-            filter: drop-shadow(var(--picture-size) 0px #01cafd);
-            width: var(--picture-size);
-        }
-
-        .loading {
-            display: none;
-        }
-    </style>
 </head>
 
 <body>
-    <div class="main center">
-        <div class="box">
-            <img src="imgs/windows.svg" class="windowslogo"></img>
-        </div>
-        <div class="loader" style="margin-bottom: 75px;">
-            <div class="circle"></div>
-            <div class="circle"></div>
-            <div class="circle"></div>
-            <div class="circle"></div>
-            <div class="circle"></div>
-        </div>
-    </div>
-    <div class="loading">
-        <img src="win9bg.jpg"></img>
-        <link rel="stylesheet" href="bootstrap-icon/bootstrap-icons.min.css">
-        <script src="jquery.min.js"></script>
-        <script src="kernel.js"></script>
-        <script src="vue.global.min.js"></script>
-        <i class="bi bi-windows"></i>
-    </div>
-    <script>
-        var canJump = false;
-        setTimeout(() => {
-            canJump = true;   /* 防止时间太短，没有加载页面 */
-        }, 5000);
-        window.onload = function () {
-            if (canJump) {
-                window.location.href = 'logonui.html';
-            }
-            else {
-                setTimeout(() => {
-                    window.location.href = 'logonui.html';
-                }, 5000);
-            }
-        };
-    </script>
+    <h1>Windows 9</h1>
+    <hr />
+    <p>如果你的浏览器在3s还后没有进行自动跳转，请点击：
+        <a style="cursor: pointer;color: #2983cc;text-decoration: underline;"
+            onclick="window.location.href='desktop.html'">这里</a>
+    </p>
+
 </body>
 
 </html>

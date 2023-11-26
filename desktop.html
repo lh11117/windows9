@@ -5,9 +5,43 @@
     <title>Windows 9</title>
     <link rel="stylesheet" href="windows9.css">
     <link rel="icon" href="./imgs/logo.svg" sizes="16x16">
+    <link rel="stylesheet" href="loading.css">
+    <link rel="stylesheet" href="winload.css">
+    <link rel="stylesheet" href="winloading.css">
+    <link rel="stylesheet" href="logonui.css">
 </head>
 
 <body>
+    <div class="winload" id="winload">
+        <div class="main center">
+            <div class="box">
+                <img src="imgs/windows.svg" class="windowslogo"></img>
+            </div>
+            <div class="loader" style="margin-bottom: 75px;">
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+            </div>
+        </div>
+    </div>
+    <div class="logonui" id="logonui">
+        <div class="main center">
+            <i class="bi bi-person"></i>
+            <div>
+                <a>Admin</a>
+                <div class="loader" style="vertical-align:middle;padding-top:32px;float:left;">
+                    <div class="circle"></div>
+                    <div class="circle"></div>
+                    <div class="circle"></div>
+                    <div class="circle"></div>
+                    <div class="circle"></div>
+                    <a>欢迎</a>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="taskbar">
         <icon class="winlogo" onclick="$('#start-menu').toggleClass('show')" title="开始"
             oncontextmenu="showMenu('start-logo-menu',event);">
@@ -33,7 +67,7 @@
                     <i class="bi bi-github"></i>
                     GitHub
                 </div>
-                <div onclick="ShowNotice('app-no-using');">
+                <div onclick="ShowWin('edge');">
                     <i class="bi bi-browser-edge"></i>
                     Microsoft Edge
                 </div>
@@ -288,9 +322,36 @@
             </div>
         </div>
     </div>
+    <div class="window edge">
+        <div class="title-bar">
+            <icon><i class="bi bi-browser-edge win9-title-icon"></i></icon>
+            <p class="win9-title-text"><a>1</a></p>
+            <div class="win9-windows-control-btn-group">
+                <a class="win9-windows-control-btn min" onclick="MinWin('edge')"><i class="bi bi-dash-lg"></i></a>
+                <a class="win9-windows-control-btn max" onclick="MaxWin('edge')"><i class="bi bi-square"></i></a>
+                <a class="win9-windows-control-btn close" onclick="CloseWin('edge')"><i class="bi bi-x"></i></a>
+            </div>
+        </div>
+        <div class="window-frame">
+            <div class="win9-edge">
+                <div class="edge-path">
+                    <i class="bi bi-arrow-left"></i>
+                    <i class="bi bi-arrow-right"></i>
+                    <i class="bi bi-arrow-clockwise" onclick="apps.edge.iframe.src = apps.edge.iframe.src;"></i>
+                    <input class="win9gui edge-path-input" spellcheck="false" id="edge-path-input" type="input"
+                        value="https://www.bing.com"></input>
+                    <i class="bi bi-star"></i>
+                </div>
+                <div class="main-frame">
+                    <iframe id="edge-iframe" src=""></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 <script src="jquery.min.js"></script>
 <script src="vue.global.min.js"></script>
+<script src="resize.js"></script>
 <script src="kernel.js"></script>
 
 </html>

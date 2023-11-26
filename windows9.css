@@ -5,6 +5,7 @@
 @import url(./apps/style/setting.css);
 @import url(./apps/style/calc.css);
 @import url(./apps/style/winver.css);
+@import url(./apps/style/edge.css);
 
 * {
     -moz-user-select: none;

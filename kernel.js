@@ -271,10 +271,6 @@ function ShowNotice(name) {
         i++;
     });
 }
-/* 检查到本地文件或 Live Server，不显示信息，避免开发浪费时间 */
-if (!window.location.href.includes('127.0.0.1')) {
-    ShowNotice('infos'); /* 显示信息 */
-}
 
 function getElementAbsolutePosition(element) {
     var x = 0;
@@ -292,6 +288,7 @@ function getElementAbsolutePosition(element) {
 /* 窗口操作 */
 
 let NoMax = ['calc', 'winver'];
+let NoResize = ['calc', 'winver'];
 
 function ShowWin(name) {
     if (!$('.window.' + name).hasClass('show')) {
@@ -336,12 +333,16 @@ function MaxWin(name) {
     if (!isMax) {
         document.querySelectorAll('.window.' + name)[0].style.left = '0px';
         document.querySelectorAll('.window.' + name)[0].style.top = '0px';
+        document.querySelectorAll('.window.' + name)[0].style.width = '';
+        document.querySelectorAll('.window.' + name)[0].style.height = '';
         $(`.window.${name}>.title-bar>.win9-windows-control-btn-group>.win9-windows-control-btn.max`).html('<img src="imgs/normal.svg"></img>');
     } else {
         $(`.window.${name}>.title-bar>.win9-windows-control-btn-group>.win9-windows-control-btn.max`).html('<i class="bi bi-square"></i>');
         try {
             document.querySelectorAll('.window.' + name)[0].style.left = window_pos[name].left;
             document.querySelectorAll('.window.' + name)[0].style.top = window_pos[name].top;
+            document.querySelectorAll('.window.' + name)[0].style.width = window_pos[name].width;
+            document.querySelectorAll('.window.' + name)[0].style.height = window_pos[name].height;
         } catch (e) { }
     }
 }
@@ -411,6 +412,9 @@ for (var i = 0; i < windows.length; i++) {
         e = { clientX: x, clientY: y };
         RightClickMenu(e);
     });
+    if (NoResize.indexOf(name) == -1) {
+        addResize('.window.' + name);
+    }
 }
 
 function is_in_element(event, element) {
@@ -424,28 +428,10 @@ function is_in_element(event, element) {
     return (x < divx1 || x > divx2 || y < divy1 || y > divy2)
 }
 
-page.addEventListener('mousemove', function (event) {
-    if (window.innerWidth - event.clientX < 10 && ((window.innerHeight - event.clientY < 10) || (event.clientY < 10))) {
-        if (!isMouseDown) {
-            $('#charm-bar').addClass('show');
-        }
-    }
-});
-page.addEventListener('mousedown', function (event) {
-    isMouseDown = true;
-    if (window.innerWidth - event.clientX > document.getElementById('charm-bar').clientWidth) {
-        if (is_in_element(event, document.querySelectorAll('#charm-bar>.charm-bar-datetime')[0])) {
-            $('#charm-bar').removeClass('show');
-        }
-    }
-});
-page.addEventListener('mouseup', function (event) {
-    isMouseDown = false;
-});
-
 
 var wins = [];
 var windows_z_index = [];
+var window_title = { edge: 'Microsoft Edge' };
 
 function DrawTaskbar() {
     $('.taskbar>.taskbar-icons>div').html(``);
@@ -454,7 +440,7 @@ function DrawTaskbar() {
         if (windows_z_index.indexOf(item) == 0) {
             $(`.window.${item}`).addClass('foc');
         }
-        $('.taskbar>.taskbar-icons>div').append(`<icon draggable="false" class="taskbar-icon ${item} ${(windows_z_index.indexOf(item) == 0 ? 'highlight' : '')}" onclick="TaskbarIconClick('${item}')" title='${$('.window.' + item + '>.title-bar>p.win9-title-text')[0].innerText}'>${$('.window.' + item + '>.title-bar>icon')[0].innerHTML}</icon>`);
+        $('.taskbar>.taskbar-icons>div').append(`<icon draggable="false" class="taskbar-icon ${item} ${(windows_z_index.indexOf(item) == 0 ? 'highlight' : '')}" onclick="TaskbarIconClick('${item}')" title='${window_title[item] ? window_title[item] : $('.window.' + item + '>.title-bar>p.win9-title-text')[0].innerText}'>${$('.window.' + item + '>.title-bar>icon')[0].innerHTML}</icon>`);
     });
 }
 
@@ -660,8 +646,81 @@ let apps = {
             }
             apps.calc.element.value = Math.sqrt(Number(apps.calc.element.value)).toString();
         }
+    },
+    edge: {
+        iframe: document.getElementById('edge-iframe'),
+        input: document.getElementById('edge-path-input'),
+        init: () => {
+            apps.edge.goto('https://www.bing.com')
+        },
+        goto: (link) => {
+            if (/^(https?:\/\/)?([\da-z.-]+|(?:\d{1,3}\.){3}\d{1,3})(:[\d]+)?([/\w .-]*)*(\?[\w%&=-]*)?(#[\w-]*)?$/.test(link)) {
+                apps.edge.input.value = link;
+                apps.edge.iframe.src = link;
+            } else {
+                _link = 'https://www.bing.com/search?q=' + encodeURIComponent(link);
+                apps.edge.input.value = _link;
+                apps.edge.iframe.src = _link;
+            }
+        }
     }
 };
 
+apps.edge.input.addEventListener('keydown', (e) => {
+    if (e.keyCode == 13) {
+        apps.edge.goto(apps.edge.input.value);
+    }
+});
 
 
+
+/* 开机加载 */
+function wininit() {
+    page.addEventListener('mousemove', function (event) {
+        if (window.innerWidth - event.clientX < 10 && ((window.innerHeight - event.clientY < 10) || (event.clientY < 10))) {
+            if (!isMouseDown) {
+                $('#charm-bar').addClass('show');
+            }
+        }
+    });
+    page.addEventListener('mousedown', function (event) {
+        isMouseDown = true;
+        if (window.innerWidth - event.clientX > document.getElementById('charm-bar').clientWidth) {
+            if (is_in_element(event, document.querySelectorAll('#charm-bar>.charm-bar-datetime')[0])) {
+                $('#charm-bar').removeClass('show');
+            }
+        }
+    });
+    page.addEventListener('mouseup', function (event) {
+        isMouseDown = false;
+    });
+
+    if (!window.location.href.includes('127.0.0.1')) {
+        ShowNotice('infos'); /* 显示信息 */
+    }
+}
+
+var timer;
+var canJump = false;
+setTimeout(() => {
+    canJump = true;
+}, 5000);
+window.onload = function () {
+    if (canJump) {
+        document.getElementById('winload').style.display = 'none';
+        setTimeout(() => {
+            document.getElementById('logonui').style.display = 'none';
+            wininit();
+        }, 5000);
+    } else {
+        setTimeout(window.onload, 5000);
+    }
+}
+
+/* 检查到本地文件或 Live Server，跳过开机过程，避免开发浪费时间 */
+if (window.location.href.includes('127.0.0.1')) {
+    window.onload = function () { }
+    document.getElementById('winload').style.display = 'none';
+    document.getElementById('logonui').style.display = 'none';
+    wininit();
+}

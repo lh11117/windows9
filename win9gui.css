@@ -33,3 +33,14 @@ a.win9-notice-button{
 a.win9-notice-button:hover{
     background-color: #4120aa;
 }
+
+input.win9gui[type='input']{
+    border:#888 2px solid;
+    outline: 0;
+    font-size: 13pt;
+    transition: border 0.5s;
+}
+
+input.win9gui[type='input']:focus{
+    border:#2697f3 2px solid;
+}

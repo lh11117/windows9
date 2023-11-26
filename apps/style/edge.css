@@ -1,0 +1,72 @@
+.window.edge>.title-bar>icon {
+    visibility: hidden;
+}
+
+.window.edge>.title-bar>p>a {
+    visibility: hidden;
+    min-height: 30px;
+}
+
+.window.edge>.window-frame {
+    overflow: hidden;
+}
+
+.window.edge>.window-frame>.win9-edge {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.window.edge>.window-frame>.win9-edge>div.edge-path {
+    display: flex;
+}
+
+.window.edge>.window-frame>.win9-edge>div.edge-path>input.edge-path-input {
+    flex-grow: 1;
+    margin: 3px;
+    transition: background-color 0.2s;
+}
+
+.window.edge>.window-frame>.win9-edge>div.edge-path>input.edge-path-input:hover {
+    background-color: #ececec;
+}
+
+.window.edge>.window-frame>.win9-edge>div.edge-path>i.bi {
+    height: 30px;
+    width: 30px;
+    margin: 2.5px;
+    transition: background-color 0.2s;
+    position: relative;
+}
+
+.window.edge>.window-frame>.win9-edge>div.edge-path>i.bi::before {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.window.edge>.window-frame>.win9-edge>div.edge-path>i.bi:hover {
+    background-color: #d3d3d3;
+}
+
+.window.edge>.window-frame>.win9-edge>div.edge-path>i.bi.bi-star {
+    position: absolute;
+    transform: translate(-20%, 0%);
+    right: 5px;
+    top: 5px;
+    height: 20px;
+    width: 20px;
+}
+
+.window.edge>.window-frame>.win9-edge>.main-frame {
+    flex-grow: 1;
+    display: flex;
+    border-top: #d3d3d3 solid 1px;
+}
+
+.window.edge>.window-frame>.win9-edge>.main-frame>iframe {
+    flex-grow: 1;
+    border:none;
+}
