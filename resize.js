@@ -71,7 +71,7 @@ function addResize(query, minHeight = 44, minWidth = 400) {
                     element.style.height = minHeight + 'px';
                 } else {
                     element.style.height = startHeight - e.clientY + screenStartY + 'px';
-                    element.style.top = e.clientY + 'px';
+                    element.style.top = e.clientY - startY + 'px';
                 }
             }
         }
@@ -82,7 +82,7 @@ function addResize(query, minHeight = 44, minWidth = 400) {
                     element.style.width = minWidth + 'px';
                 } else {
                     element.style.width = startWidth - e.clientX + screenStartX + 'px';
-                    element.style.left = e.clientX + 'px';
+                    element.style.left = e.clientX - startX + 'px';
                 }
             }
         }

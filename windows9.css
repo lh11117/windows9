@@ -144,8 +144,16 @@ body {
         width: 100px;
     }
 }
+@keyframes charm-bar-hide {
+    from {
+        width: 100px;
+    }
 
-.charm-bar.show {
+    to {
+        width: 0px;
+    }
+}
+.charm-bar.show, .charm-bar.hide {
     display: flex;
     flex-direction: column;
     width: 100px;
@@ -155,7 +163,21 @@ body {
     top: 0px;
     height: 100%;
     z-index: 200;
+}
+.charm-bar.show {
     animation: charm-bar-show 0.2s linear;
+    animation-fill-mode: forwards;
+}
+.charm-bar.show>.charm-bar-datetime {
+    animation: start-menu-show 0.2s linear;
+    animation-fill-mode: forwards;
+}
+.charm-bar.hide {
+    animation: charm-bar-hide 0.2s linear;
+    animation-fill-mode: forwards;
+}
+.charm-bar.hide>.charm-bar-datetime {
+    animation: start-menu-hide 0.2s linear;
     animation-fill-mode: forwards;
 }
 
@@ -246,12 +268,38 @@ body {
 
 
 @keyframes start-menu-show {
-    from {
+    0% {
         opacity: 0;
     }
-
-    to {
+    25%{
+        opacity: 0.1;
+    }
+    50%{
+        opacity: 0.2;
+    }
+    75%{
+        opacity: 0.4;
+    }
+    100% {
         opacity: 1;
+    }
+}
+
+@keyframes start-menu-hide {
+    0% {
+        opacity: 1;
+    }
+    25%{
+        opacity: 0.9;
+    }
+    50%{
+        opacity: 0.8;
+    }
+    75%{
+        opacity: 0.6;
+    }
+    100% {
+        opacity: 0;
     }
 }
 
@@ -259,11 +307,18 @@ body {
     position: absolute;
     bottom: 44px;
     left: 0px;
-    background-color: #567160;
+    background-color: #56716085;
     height: 70%;
     width: 420px;
     display: none;
     z-index: 101;
+}
+
+.start-menu.hide {
+    display: flex;
+    flex-direction: column;
+    animation: start-menu-hide 0.1s linear;
+    animation-fill-mode: forwards;
 }
 
 .start-menu.show {
@@ -273,6 +328,8 @@ body {
     animation-fill-mode: forwards;
     overflow-y: auto;
     overflow-x: hidden;
+    backdrop-filter: blur(5px);
+    box-shadow:  rgba(0, 0, 0, 0.1) 0px 0px 50px;
 }
 
 .start-menu>.start-menu-item {
@@ -423,12 +480,10 @@ body {
     border-color: #7c7c7c;
 }
 
-
-
 .taskbar-time-show {
     text-align: center;
     margin: 0px;
-    padding: 0px;
+    padding: 0px 5px;
     margin-right: 5px;
     transform: translate(0%, -25%);
     cursor: pointer;
@@ -442,30 +497,27 @@ body {
 
 .timedate {
     position: absolute;
-    bottom: 50px;
-    background-color: #fff;
-    right: 5px;
+    bottom: 44px;
+    background-color: #56716085;
+    right: 0px;
     padding: 20px;
-    border: #01cafd solid 5px;
     display: none;
     z-index: 100;
     width: 350px;
     overflow: hidden;
-}
-
-@keyframes timedate-show {
-    0% {
-        height: 0px;
-    }
-
-    100% {
-        height: 426.67px;
-    }
+    backdrop-filter: blur(5px);
+    box-shadow:  rgba(0, 0, 0, 0.1) 0px 0px 50px;
 }
 
 .timedate.show {
     display: block;
-    animation: timedate-show 0.1s linear;
+    animation: start-menu-show 0.1s linear;
+    animation-fill-mode: forwards;
+}
+
+.timedate.hide {
+    display: block;
+    animation: start-menu-hide 0.1s linear;
     animation-fill-mode: forwards;
 }
 
@@ -539,8 +591,8 @@ body {
 .window {
     position: absolute;
     background-color: #88888870;
-    width: 80%;
-    height: 80%;
+    width: 800px;
+    height: 600px;
     margin: 0px;
     padding: 0px;
     top: 10%;
@@ -549,6 +601,8 @@ body {
     border: 1px solid gray;
     max-width: 100%;
     max-height: 100%;
+    animation: win-animation-maxed 0.1s linear;
+    animation-fill-mode: forwards;
 }
 
 .window.foc{
@@ -673,6 +727,13 @@ body {
     max-height: 90%;
     overflow-y: auto;
     box-shadow: 2px 2px 2px gray;
+    animation: start-menu-show 0.1s linear;
+    animation-fill-mode: forwards;
+}
+
+.win9-menu.hiding {
+    animation: start-menu-hide 0.1s linear;
+    animation-fill-mode: forwards;
 }
 
 .win9-menu>.win9-menu-item {
@@ -718,8 +779,15 @@ body {
 
 .win9-notice.show {
     display: block;
+    animation: start-menu-show 0.1s linear;
+    animation-fill-mode: forwards;
 }
 
+.win9-notice.hide {
+    display: block;
+    animation: start-menu-hide 0.1s linear;
+    animation-fill-mode: forwards;
+}
 
 .win9-notice>.win9-notice-main {
     background-color: #210562;

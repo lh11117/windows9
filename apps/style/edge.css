@@ -38,6 +38,11 @@
     margin: 2.5px;
     transition: background-color 0.2s;
     position: relative;
+    color: #888;
+}
+
+.window.edge>.window-frame>.win9-edge>div.edge-path>i.bi[class*="enabled"] {
+    color: #000;
 }
 
 .window.edge>.window-frame>.win9-edge>div.edge-path>i.bi::before {
@@ -47,13 +52,22 @@
     transform: translate(-50%, -50%);
 }
 
-.window.edge>.window-frame>.win9-edge>div.edge-path>i.bi:hover {
+.window.edge>.window-frame>.win9-edge>div.edge-path>i.bi[class*="enabled"]:hover {
     background-color: #d3d3d3;
 }
 
 .window.edge>.window-frame>.win9-edge>div.edge-path>i.bi.bi-star {
     position: absolute;
     transform: translate(-20%, 0%);
+    right: 5px;
+    top: 5px;
+    height: 20px;
+    width: 20px;
+}
+
+.window.edge>.window-frame>.win9-edge>div.edge-path>i.bi.bi-arrow-right-circle {
+    position: absolute;
+    transform: translate(-140%, 0%);
     right: 5px;
     top: 5px;
     height: 20px;

@@ -43,7 +43,7 @@
         </div>
     </div>
     <div class="taskbar">
-        <icon class="winlogo" onclick="$('#start-menu').toggleClass('show')" title="开始"
+        <icon class="winlogo" onclick="ShoworHideStartMenu()" title="开始"
             oncontextmenu="showMenu('start-logo-menu',event);">
             <i class="bi bi-windows"></i>
         </icon>
@@ -52,7 +52,7 @@
             </div>
         </div>
         <div class="taskbar-time-show" id="taskbar-time-show" style="visibility: hidden;"
-            onclick="var date_data = { year: (new Date()).getFullYear(), month: (new Date()).getMonth() + 1 };SetDateList(date_data.year, date_data.month);$('#win9-timedate').toggleClass('show');">
+            onclick="ShoworHideTimedate()">
             {{hour}}:{{minutes}}:{{seconds}}<br>{{year}}/{{month}}/{{day}}</div>
         <div class="show-desktop" title="显示桌面" onclick="ShowDesktop();"
             oncontextmenu="showMenu('titlebar-showdesktop',event)"></div>
@@ -63,25 +63,29 @@
         <p class="start-menu-tips-text recommended">推荐的应用</p>
         <div id="start-menu-item" class="start-menu-item">
             <div>
-                <div onclick="window.open('https:\/\/github.com/lh11117/windows9')">
+                <div onclick="StartMenuExec(()=>{window.open('https:\/\/github.com/lh11117/windows9');});">
                     <i class="bi bi-github"></i>
                     GitHub
                 </div>
-                <div onclick="ShowWin('edge');">
+                <div onclick="StartMenuExec(()=>{ShowWin('edge');});">
                     <i class="bi bi-browser-edge"></i>
                     Microsoft Edge
                 </div>
-                <div onclick="ShowWin('setting')">
+                <div onclick="StartMenuExec(()=>{ShowWin('setting');});">
                     <i class="bi bi-gear"></i>
                     设置
                 </div>
-                <div onclick="ShowWin('calc')">
+                <div onclick="StartMenuExec(()=>{ShowWin('calc');});">
                     <i class="bi bi-calculator"></i>
                     计算器
                 </div>
-                <div onclick="ShowWin('winver')">
+                <div onclick="StartMenuExec(()=>{ShowWin('winver');});">
                     <i class="bi bi-info"></i>
                     关于“Windows”
+                </div>
+                <div onclick="StartMenuExec(()=>{ShowNotice('infos');});">
+                    <i class="bi bi-info"></i>
+                    更多信息
                 </div>
             </div>
         </div>
@@ -98,7 +102,7 @@
         <div class="year-month-show">
             <p>{{year}}年{{month}}月</p>
             <div class="button-group">
-                <a class="date2today link">今天</a>
+                <a class="date2today link dark">今天</a>
                 <a class="win9-button" onclick="MonthUp()">
                     <i class="bi bi-caret-up-fill"></i>
                 </a><a class="win9-button" onclick="MouthDown()">
@@ -335,12 +339,13 @@
         <div class="window-frame">
             <div class="win9-edge">
                 <div class="edge-path">
-                    <i class="bi bi-arrow-left"></i>
-                    <i class="bi bi-arrow-right"></i>
-                    <i class="bi bi-arrow-clockwise" onclick="apps.edge.iframe.src = apps.edge.iframe.src;"></i>
+                    <i class="bi bi-arrow-left enabled" onclick="apps.edge.back();"></i>
+                    <i class="bi bi-arrow-right enabled" onclick="apps.edge.next();"></i>
+                    <i class="bi bi-arrow-clockwise enabled" onclick="apps.edge.iframe.src = apps.edge.iframe.src;"></i>
                     <input class="win9gui edge-path-input" spellcheck="false" id="edge-path-input" type="input"
                         value="https://www.bing.com"></input>
-                    <i class="bi bi-star"></i>
+                    <i class="bi bi-arrow-right-circle enabled" onclick="apps.edge.goto();"></i>
+                    <i class="bi bi-star enabled"></i>
                 </div>
                 <div class="main-frame">
                     <iframe id="edge-iframe" src=""></iframe>

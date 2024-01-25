@@ -23,6 +23,17 @@ a.win9-button:hover{
     text-decoration: none;
 }
 
+.link.dark{
+    color: #0b3354;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.link.dark:hover{
+    color: #061c2e;
+    text-decoration: none;
+}
+
 a.win9-notice-button{
     padding: 3px 25px;
     margin: 10px;

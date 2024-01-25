@@ -62,6 +62,7 @@ function GetMonthLastDay(year, month) {
     }
 }
 
+let date_checked_day = (new Date()).getDate();
 function SetDateList(year, month) {
     var date = new Date();
     date.setFullYear(year);
@@ -106,13 +107,16 @@ function SetDateList(year, month) {
         i++;
     }
     $('.timedate>.dates>.line>a.date.d' + (new Date()).getDate()).addClass('today');
+    $('.timedate>.dates>.line>a.date.d' + date_checked_day).addClass('checked');
     $('.timedate>.dates>.line>a.date').click((event) => {
         $('.timedate>.dates>.line>a.date').removeClass('checked');
         event.target.classList.add('checked');
+        date_checked_day = parseInt(event.target.innerText);
         CheckShowToday(parseInt(event.target.innerText));
     });
     $('.timedate>.year-month-show>div.button-group>.date2today').click(() => {
         date_data = { year: (new Date()).getFullYear(), month: (new Date()).getMonth() + 1 }
+        date_checked_day = (new Date()).getDate();
         SetDateList(date_data.year, date_data.month);
         CheckShowToday((new Date()).getDate());
     });
@@ -125,6 +129,23 @@ function CheckShowToday(day) {
         document.querySelectorAll('.timedate>.year-month-show>div.button-group>.date2today')[0].style.visibility = 'hidden';
     } else {
         document.querySelectorAll('.timedate>.year-month-show>div.button-group>.date2today')[0].style.visibility = 'visible';
+    }
+}
+
+function ShoworHideTimedate() {
+    var date_data = {
+        year: (new Date()).getFullYear(),
+        month: (new Date()).getMonth() + 1
+    };
+    SetDateList(date_data.year, date_data.month);
+    var isShow = $('#win9-timedate').hasClass('show');
+    $('#win9-timedate').removeClass('hide');
+    $('#win9-timedate').toggleClass('show');
+    if (isShow) {
+        $('#win9-timedate').addClass('hide');
+        setTimeout(() => {
+            $('#win9-timedate').removeClass('hide');
+        }, 100);
     }
 }
 
@@ -213,7 +234,10 @@ function showMenu(name, event, args) {
         }
     });
     menu_.addEventListener("blur", function (event) {
-        event.target.remove();
+        event.target.classList.add('hiding');
+        setTimeout(() => {
+            event.target.remove();
+        }, 100);
     }, true);
     document.body.appendChild(menu_);
     adjustElementPosition(menu_);
@@ -225,6 +249,18 @@ document.oncontextmenu = function () {
     return false;
 }
 
+function StartMenuExec(func) {
+    // This function can do every command in Start Menu!
+    // Eg: `StartMenuExec('alert("Hello");');` or `StartMenuExec(()=>{alert("Hello");});`
+    if ($('#start-menu').hasClass('show')) {
+        ShoworHideStartMenu();
+    }
+    if (typeof (func) == 'function') {
+        func();
+    } else {
+        eval(func);
+    }
+}
 
 /* 通知 */
 let notices = {
@@ -253,10 +289,12 @@ let notices = {
     }
 }
 
-
-
 function CloseNotice() {
     $('#win9-notice').removeClass('show');
+    $('#win9-notice').addClass('hide');
+    setTimeout(() => {
+        $('#win9-notice').removeClass('hide');
+    }, 100);
 }
 
 function ShowNotice(name) {
@@ -325,25 +363,78 @@ function CloseWin(name) {
 }
 
 function MaxWin(name) {
+    var cssid = 'animation-for-' + name;
+    var css = document.getElementById(cssid);
+    if (css == null) {
+        var css = document.createElement('style');
+        css.id = 'animation-for-' + name;
+        document.body.appendChild(css);
+    }
     var isMax = $('.window.' + name).hasClass('max');
     if (!isMax) {
         save_pos();
     }
     $('.window.' + name).toggleClass('max');
     if (!isMax) {
-        document.querySelectorAll('.window.' + name)[0].style.left = '0px';
-        document.querySelectorAll('.window.' + name)[0].style.top = '0px';
+        $(`.window.${name}>.title-bar>.win9-windows-control-btn-group>.win9-windows-control-btn.max`).html('<img src="imgs/normal.svg"></img>');
+        css.innerHTML = `@keyframes animation-${name} {
+            0%{
+                left: ${getElementAbsolutePosition(document.querySelectorAll('.window.' + name)[0]).x}px;
+                top: ${getElementAbsolutePosition(document.querySelectorAll('.window.' + name)[0]).y}px;
+                right: ${window.innerWidth - document.querySelectorAll('.window.' + name)[0].getBoundingClientRect().right}px;
+                bottom: ${window.innerHeight - document.querySelectorAll('.window.' + name)[0].getBoundingClientRect().bottom}px;
+            }
+            100%{
+                left: 0px;
+                top: 0px;
+                right: 0px;
+                bottom: 44px;
+            }
+        }`;
         document.querySelectorAll('.window.' + name)[0].style.width = '';
         document.querySelectorAll('.window.' + name)[0].style.height = '';
-        $(`.window.${name}>.title-bar>.win9-windows-control-btn-group>.win9-windows-control-btn.max`).html('<img src="imgs/normal.svg"></img>');
+        document.querySelectorAll('.window.' + name)[0].style.animation = `animation-${name} 0.1s linear`;
+        setTimeout(() => {
+            document.querySelectorAll('.window.' + name)[0].style.left = '0px';
+            document.querySelectorAll('.window.' + name)[0].style.top = '0px';
+            document.querySelectorAll('.window.' + name)[0].style.animation = '';
+        }, 100);
     } else {
         $(`.window.${name}>.title-bar>.win9-windows-control-btn-group>.win9-windows-control-btn.max`).html('<i class="bi bi-square"></i>');
-        try {
+        css.innerHTML = `@keyframes animation-${name} {
+            100%{
+                left: ${getElementAbsolutePosition(document.querySelectorAll('.window.' + name)[0]).x}px;
+                top: ${getElementAbsolutePosition(document.querySelectorAll('.window.' + name)[0]).y}px;
+                width: ${window_pos[name].width};
+                height: ${window_pos[name].height};
+            }
+            0%{
+                left: 0px;
+                top: 0px;
+                width: 100%;
+                height: 100%;
+            }
+        }`;
+        document.querySelectorAll('.window.' + name)[0].style.animation = `animation-${name} 0.1s linear`;
+        setTimeout(() => {
             document.querySelectorAll('.window.' + name)[0].style.left = window_pos[name].left;
             document.querySelectorAll('.window.' + name)[0].style.top = window_pos[name].top;
             document.querySelectorAll('.window.' + name)[0].style.width = window_pos[name].width;
             document.querySelectorAll('.window.' + name)[0].style.height = window_pos[name].height;
-        } catch (e) { }
+            document.querySelectorAll('.window.' + name)[0].style.animation = '';
+        }, 100);
+    }
+}
+
+function ShoworHideStartMenu() {
+    var isShow = $('#start-menu').hasClass('show');
+    $('#start-menu').removeClass('hide');
+    $('#start-menu').toggleClass('show');
+    if (isShow) {
+        $('#start-menu').addClass('hide');
+        setTimeout(() => {
+            $('#start-menu').removeClass('hide');
+        }, 100);
     }
 }
 
@@ -650,25 +741,85 @@ let apps = {
     edge: {
         iframe: document.getElementById('edge-iframe'),
         input: document.getElementById('edge-path-input'),
+        history: [],
+        pre: [],
         init: () => {
             apps.edge.goto('https://www.bing.com')
         },
-        goto: (link) => {
+        goto: (link = apps.edge.input.value, remember_link = true) => {
             if (/^(https?:\/\/)?([\da-z.-]+|(?:\d{1,3}\.){3}\d{1,3})(:[\d]+)?([/\w .-]*)*(\?[\w%&=-]*)?(#[\w-]*)?$/.test(link)) {
                 apps.edge.input.value = link;
                 apps.edge.iframe.src = link;
+                if (remember_link) {
+                    if (link != apps.edge.history[apps.edge.history.length - 1])
+                        apps.edge.history.push(link);
+                    if ((apps.edge.history.length == 0) || (link != apps.edge.pre[apps.edge.history.length - 1]))
+                        apps.edge.pre.push(link);
+                    if (apps.edge.history.length > 1)
+                        $('.win9-edge>.edge-path>i.bi.bi-arrow-left').addClass('enabled');
+                    if (apps.edge.pre.length > 1)
+                        $('.win9-edge>.edge-path>i.bi.bi-arrow-right').addClass('enabled');
+                }
             } else {
                 _link = 'https://www.bing.com/search?q=' + encodeURIComponent(link);
                 apps.edge.input.value = _link;
                 apps.edge.iframe.src = _link;
+                if (remember_link) {
+                    if (_link != apps.edge.history[apps.edge.history.length - 1])
+                        apps.edge.history.push(_link);
+                    if ((apps.edge.history.length == 0) || (_link != apps.edge.pre[apps.edge.history.length - 1]))
+                        apps.edge.pre.push(_link);
+                    if (apps.edge.history.length > 1)
+                        $('.win9-edge>.edge-path>i.bi.bi-arrow-left').addClass('enabled');
+                    if (apps.edge.pre.length > 1)
+                        $('.win9-edge>.edge-path>i.bi.bi-arrow-right').addClass('enabled');
+                }
             }
+            apps.edge.setBackNextEnabled();
+            console.log('history: ',apps.edge.history,'\npre:',apps.edge.pre);
+        },
+        setBackNextEnabled: () => {
+            var retur = true;
+            if (apps.edge.history.length <= 1) {
+                $('.win9-edge>.edge-path>i.bi.bi-arrow-left').removeClass('enabled');
+                retur = false;
+            }
+            if (apps.edge.pre.length <= 1) {
+                $('.win9-edge>.edge-path>i.bi.bi-arrow-right').removeClass('enabled');
+                retur = false;
+            }
+            return retur;
+        },
+        back: () => {
+            if (!$('.win9-edge>.edge-path>i.bi.bi-arrow-left').hasClass('enabled')) {
+                return;
+            }
+            apps.edge.pre.push(apps.edge.history.pop());
+            link = apps.edge.history[apps.edge.history.length - 1];
+            if (apps.edge.history.length <= 1) {
+                $('.win9-edge>.edge-path>i.bi.bi-arrow-left').removeClass('enabled');
+            }
+            apps.edge.input.value = link;
+            apps.edge.goto(link = link, remember_link = false);
+        },
+        next:()=>{
+            if (!$('.win9-edge>.edge-path>i.bi.bi-arrow-right').hasClass('enabled')) {
+                return;
+            }
+            apps.edge.history.push(apps.edge.pre.pop());
+            link = apps.edge.pre[apps.edge.pre.length - 1];
+            if (apps.edge.pre.length <= 1) {
+                $('.win9-edge>.edge-path>i.bi.bi-arrow-right').removeClass('enabled');
+            }
+            apps.edge.input.value = link;
+            apps.edge.goto(link = link, remember_link = false);
         }
     }
 };
 
 apps.edge.input.addEventListener('keydown', (e) => {
     if (e.keyCode == 13) {
-        apps.edge.goto(apps.edge.input.value);
+        apps.edge.goto();
     }
 });
 
@@ -688,6 +839,10 @@ function wininit() {
         if (window.innerWidth - event.clientX > document.getElementById('charm-bar').clientWidth) {
             if (is_in_element(event, document.querySelectorAll('#charm-bar>.charm-bar-datetime')[0])) {
                 $('#charm-bar').removeClass('show');
+                $('#charm-bar').addClass('hide');
+                setTimeout(() => {
+                    $('#charm-bar').removeClass('hide');
+                }, 200);
             }
         }
     });
