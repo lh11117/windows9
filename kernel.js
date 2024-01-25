@@ -776,7 +776,7 @@ let apps = {
                 }
             }
             apps.edge.setBackNextEnabled();
-            console.log('history: ',apps.edge.history,'\npre:',apps.edge.pre);
+            console.log('history: ', apps.edge.history, '\npre:', apps.edge.pre);
         },
         setBackNextEnabled: () => {
             var retur = true;
@@ -802,7 +802,7 @@ let apps = {
             apps.edge.input.value = link;
             apps.edge.goto(link = link, remember_link = false);
         },
-        next:()=>{
+        next: () => {
             if (!$('.win9-edge>.edge-path>i.bi.bi-arrow-right').hasClass('enabled')) {
                 return;
             }
@@ -838,11 +838,13 @@ function wininit() {
         isMouseDown = true;
         if (window.innerWidth - event.clientX > document.getElementById('charm-bar').clientWidth) {
             if (is_in_element(event, document.querySelectorAll('#charm-bar>.charm-bar-datetime')[0])) {
-                $('#charm-bar').removeClass('show');
-                $('#charm-bar').addClass('hide');
-                setTimeout(() => {
-                    $('#charm-bar').removeClass('hide');
-                }, 200);
+                if ($('#charm-bar').hasClass('hide')) {
+                    $('#charm-bar').removeClass('show');
+                    $('#charm-bar').addClass('hide');
+                    setTimeout(() => {
+                        $('#charm-bar').removeClass('hide');
+                    }, 200);
+                }
             }
         }
     });
